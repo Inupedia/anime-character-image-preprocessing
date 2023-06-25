@@ -50,6 +50,16 @@
    ```bash
    pip install -r requirements.txt 
    ```
+3. 添加模型文件：所有的模型都存储在`.u2net`文件夹中，以下为参考模型：
+   1. u2net ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：适用于一般用途的预训练模型
+   2. u2netp ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2netp.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：u2net模型的轻量版
+   3. u2net_human_seg ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：适用于人体分割的预训练模型
+   4. u2net_cloth_seg ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_cloth_seg.onnx), [源码](https://github.com/levindabhi/cloth-segmentation))：适用于从人像中解析衣物的预训练模型，此处的衣物被解析为三类：上半身、下半身和全身
+   5. silueta ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/silueta.onnx), [源码](https://github.com/xuebinqin/U-2-Net/issues/295))：与u2net相同，但大小减少到43Mb
+   6. isnet-general-use ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/isnet-general-use.onnx), [源码](https://github.com/xuebinqin/DIS))：新的适用于一般用途的预训练模型
+   7. isnet-anime ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/isnet-anime.onnx), [源码](https://github.com/SkyTNT/anime-segmentation))：适用于动漫角色的高精度分割模型
+   8. sam ([下载编码器](https://github.com/danielgatis/rembg/releases/download/v0.0.0/vit_b-encoder-quant.onnx), [下载解码器](https://github.com/danielgatis/rembg/releases/download/v0.0.0/vit_b-decoder-quant.onnx), [源码](https://github.com/facebookresearch/segment-anything))：适用于任何用途的预训练模型
+
 ### 使用图片预处理
 1. 将需要处理的图片放入`src/input`文件夹中
 2. 运行`main.py`：
@@ -71,13 +81,17 @@
      4. 访问排行榜并刷新页面
      5. 找到ranking.php并复制其Request Headers中的cookie
         <div>
-            <img src="./src/readme/Cookie.jpg" width="500px"></img>
+            <img src="./src/readme/Cookie.jpg" width="800px"></img>
         </div>
 2. 根据画师ID爬取其pixiv的图片：
    ```bash
    python main.py --pixiv
    ```
 
+## 后续更新
+- [ ] 根据人脸位置进行正方形图片裁剪
+- [ ] 无损放大图片
+  
 ## 参考项目
 - [Pixiv爬虫](https://github.com/CWHer/PixivCrawler)
 ## 许可证
