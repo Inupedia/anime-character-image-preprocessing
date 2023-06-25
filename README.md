@@ -20,16 +20,16 @@
             <td>处理后图片</td>
         </tr>
         <tr>
-            <td><img src="./src/readme/illust_0.png" width="500px"></td>
-            <td><img src="./src/readme/illust_0_character.png" width="500px"></td>
+            <td><img src="./src/readme/illust_0.jpeg" width="500px"></td>
+            <td><img src="./src/readme/illust_0_character.jpeg" width="500px"></td>
         </tr>
         <tr>
-            <td><img src="./src/readme/illust_1.png" width="500px"></td>
-            <td><img src="./src/readme/illust_1_character.png" width="500px"></td>
+            <td><img src="./src/readme/illust_1.jpeg" width="500px"></td>
+            <td><img src="./src/readme/illust_1_character.jpeg" width="500px"></td>
         </tr>
         <tr>
-            <td><img src="./src/readme/illust_2.png" width="500px"></td>
-            <td><img src="./src/readme/illust_2_character.png" width="500px"></td>
+            <td><img src="./src/readme/illust_2.jpeg" width="500px"></td>
+            <td><img src="./src/readme/illust_2_character.jpeg" width="500px"></td>
         </tr>
     </table>
 </div>
