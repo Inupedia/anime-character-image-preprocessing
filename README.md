@@ -20,16 +20,16 @@
             <td>处理后图片</td>
         </tr>
         <tr>
-            <td><img src="./src/input/illust_0.png" width="500px"></td>
-            <td><img src="./src/output/illust_0_character.png" width="500px"></td>
+            <td><img src="./src/readme/illust_0.png" width="500px"></td>
+            <td><img src="./src/readme/illust_0_character.png" width="500px"></td>
         </tr>
         <tr>
-            <td><img src="./src/input/illust_1.png" width="500px"></td>
-            <td><img src="./src/output/illust_1_character.png" width="500px"></td>
+            <td><img src="./src/readme/illust_1.png" width="500px"></td>
+            <td><img src="./src/readme/illust_1_character.png" width="500px"></td>
         </tr>
         <tr>
-            <td><img src="./src/input/illust_2.png" width="500px"></td>
-            <td><img src="./src/output/illust_2_character.png" width="500px"></td>
+            <td><img src="./src/readme/illust_2.png" width="500px"></td>
+            <td><img src="./src/readme/illust_2_character.png" width="500px"></td>
         </tr>
     </table>
 </div>
@@ -66,9 +66,14 @@
    ```bash
    python main.py
    ```
+
 ### 使用pixiv爬虫
 1. 更改`image_crawler`文件夹下`config.py`配置文件，格式如下：
    ```python
+    NETWORK_CONFIG = {
+        # 代理设置（Clash无需修改，SSR需要修改端口号）
+        "PROXY": {"https": "127.0.0.1:7890"},
+    }
     USER_CONFIG = {
         "USER_ID": "修改成自己的uid，参考个人资料页面的网址https://www.pixiv.net/users/{UID}",
         "COOKIE": "修改成自己的cookie，获取方式参考以下图文",
@@ -83,9 +88,17 @@
         <div>
             <img src="./src/readme/Cookie.jpg" width="800px"></img>
         </div>
+        
 2. 根据画师ID爬取其pixiv的图片：
    ```bash
    python main.py --pixiv
+   ```
+
+### 使用图片命名
+1. 将需要处理的图片放入`src/input`文件夹中
+2. 运行`main.py`：
+   ```bash
+   python main.py --rename
    ```
 
 ## 后续更新
@@ -94,5 +107,8 @@
   
 ## 参考项目
 - [Pixiv爬虫](https://github.com/CWHer/PixivCrawler)
+- [背景去除](https://github.com/danielgatis/rembg)
+
+
 ## 许可证
 [MIT License](./license)

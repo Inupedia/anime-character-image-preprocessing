@@ -7,6 +7,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--pixiv", action="store_true", help="activate the pixiv option"
     )
+    parser.add_argument(
+        "--rename", action="store_true", help="activate the rename option"
+    )
     args = parser.parse_args()
 
     # If --pixiv is used, run ImageCrawler with input artist_id
@@ -20,7 +23,15 @@ if __name__ == "__main__":
             else:
                 print("Invalid artist id.")
 
-    # If --pixiv is not used, run ImageProcessor
+    # If --rename is used, run ImageRenamer
+    elif args.rename:
+        # Create an instance of the ImageRenamer class
+        image_renamer = ImageRenamer()
+
+        # Rename the images
+        image_renamer.run()
+
+    # If neither --pixiv or --rename is used, run ImageProcessor
     else:
         # Create an instance of the ImageProcessor class
         processor = ImageProcessor()

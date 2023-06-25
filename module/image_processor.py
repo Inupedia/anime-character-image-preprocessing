@@ -3,9 +3,11 @@ import io
 from PIL import Image
 from rembg import remove, new_session
 from .image_cropper import ImageCropper
+from tqdm import tqdm
+
 
 class ImageProcessor:
-    def __init__(self, input_dir='./src/input', output_dir='./src/output'):
+    def __init__(self, input_dir="./src/input", output_dir="./src/output"):
         self.input_dir = input_dir
         self.output_dir = output_dir
         self.model_name = "isnet-anime"
@@ -20,8 +22,12 @@ class ImageProcessor:
         image_files = []
         for filename in all_files:
             try:
-                Image.open(os.path.join(self.input_dir, filename))  # Try to open the file with PIL
-                image_files.append(filename)  # If it succeeds, add the filename to the list
+                Image.open(
+                    os.path.join(self.input_dir, filename)
+                )  # Try to open the file with PIL
+                image_files.append(
+                    filename
+                )  # If it succeeds, add the filename to the list
             except IOError:
                 pass  # If it fails, ignore the file
 
@@ -32,7 +38,9 @@ class ImageProcessor:
         skipped_files = 0
 
         # Loop over each file in the input directory
-        for i, filename in enumerate(image_files, start=1):
+        for i, filename in tqdm(
+            enumerate(image_files, start=1), total=total_files, desc="Processing images"
+        ):
             # Modify the filename for the output file
             base_name, extension = os.path.splitext(filename)
             output_filename = f"{base_name}_character.png"  # Always use .png extension
@@ -47,20 +55,25 @@ class ImageProcessor:
 
             # Create the full input path and read the file
             input_path = os.path.join(self.input_dir, filename)
-            with open(input_path, 'rb') as i:
+            with open(input_path, "rb") as i:
                 input_data = i.read()
 
             # Convert the image to PNG
             img = Image.open(io.BytesIO(input_data))
             byte_arr = io.BytesIO()
-            img.save(byte_arr, format='PNG')
+            img.save(byte_arr, format="PNG")
             png_data = byte_arr.getvalue()
 
             # Remove the background
-            output_data = remove(png_data, session=self.session, post_process_mask=True, bgcolor=(255, 255, 255, 255))
+            output_data = remove(
+                png_data,
+                session=self.session,
+                post_process_mask=True,
+                bgcolor=(255, 255, 255, 255),
+            )
 
             # Write the file
-            with open(output_path, 'wb') as o:
+            with open(output_path, "wb") as o:
                 o.write(output_data)
 
             # Crop the image
@@ -68,4 +81,6 @@ class ImageProcessor:
 
             processed_files += 1
 
-        print(f"Processing complete. Processed files: {processed_files}. Skipped files: {skipped_files}.")
+        print(
+            f"Processing complete. Processed files: {processed_files}. Skipped files: {skipped_files}."
+        )

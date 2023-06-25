@@ -1,5 +1,6 @@
 # Ignore virtual environment directories
 venv/
+.venv/
 
 # Ignore Visual Studio Code workspace and settings files
 .vscode/
@@ -11,11 +12,19 @@ __pycache__/
 .DS_Store
 
 # Ignore images except 3 basic examples
-*.png
-!src/input/illust_0.png
-!src/input/illust_1.png
-!src/input/illust_2.png
-!src/output/illust_0_character.png
-!src/output/illust_1_character.png
-!src/output/illust_2_character.png
+*.png 
+*.jpg 
+*.bmp 
+*.gif 
+*.jpeg 
+*.tiff 
+*.tif 
+*.svg
+!src/readme/illust_0.jpeg
+!src/readme/illust_1.jpeg
+!src/readme/illust_2.jpeg
+!src/readme/illust_0_character.jpeg
+!src/readme/illust_1_character.jpeg
+!src/readme/illust_2_character.jpeg
+!src/readme/Cookie.jpg
 ```
