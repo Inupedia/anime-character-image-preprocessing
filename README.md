@@ -70,7 +70,9 @@
      3. 点击Network
      4. 访问排行榜并刷新页面
      5. 找到ranking.php并复制其Request Headers中的cookie
-        ![](./src/readme/cookie.jpg)
+        <div>
+            <img src="./src/readme/Cookie.jpg" width="500px"></img>
+        </div>
 2. 根据画师ID爬取其pixiv的图片：
    ```bash
    python main.py --pixiv
