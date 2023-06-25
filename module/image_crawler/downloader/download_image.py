@@ -3,7 +3,7 @@ import re
 import time
 
 import requests
-from ..config import DOWNLOAD_CONFIG, NETWORK_CONFIG, OUTPUT_CONFIG
+from ...config import DOWNLOAD_CONFIG, NETWORK_CONFIG, OUTPUT_CONFIG
 from ..utils import printError, printInfo, printWarn, writeFailLog
 
 

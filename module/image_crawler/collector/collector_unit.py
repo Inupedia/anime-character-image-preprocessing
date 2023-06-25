@@ -2,7 +2,7 @@ import time
 from typing import Callable, Dict, Iterable, Optional, Tuple
 
 import requests
-from ..config import DOWNLOAD_CONFIG, NETWORK_CONFIG, OUTPUT_CONFIG
+from ...config import DOWNLOAD_CONFIG, NETWORK_CONFIG, OUTPUT_CONFIG
 from ..utils import printInfo, printWarn, writeFailLog
 
 

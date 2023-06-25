@@ -1,7 +1,7 @@
 import concurrent.futures as futures
 from typing import Iterable, Set
 
-from ..config import DOWNLOAD_CONFIG
+from ...config import DOWNLOAD_CONFIG
 from tqdm import tqdm
 from ..utils import printInfo
 

@@ -2,15 +2,17 @@ import os
 import io
 from PIL import Image
 from rembg import remove, new_session
-from .image_cropper import ImageCropper
+from ..image_cropper import ImageCropper
 from tqdm import tqdm
 
 
 class ImageProcessor:
-    def __init__(self, input_dir="./src/input", output_dir="./src/output"):
+    def __init__(
+        self, input_dir="./src/input", output_dir="./src/output", model_name="u2net"
+    ):
         self.input_dir = input_dir
         self.output_dir = output_dir
-        self.model_name = "isnet-anime"
+        self.model_name = model_name
         self.session = new_session(self.model_name)
         self.cropper = ImageCropper()
 

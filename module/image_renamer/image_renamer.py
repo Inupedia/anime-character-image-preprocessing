@@ -1,5 +1,6 @@
 import os
 from PIL import Image
+from ..config import IMAGE_CONFIG
 
 
 class ImageRenamer:
@@ -28,7 +29,8 @@ class ImageRenamer:
     def rename_files(self):
         for idx, filename in enumerate(self.image_files, start=1):
             basename, ext = os.path.splitext(filename)
-            new_name = f"illust_{idx - 1}{ext}"
+            image_prefix = IMAGE_CONFIG["IMAGE_PREFIX"]
+            new_name = f"{image_prefix}_{idx - 1}{ext}"
             old_file_path = os.path.join(self.folder_path, filename)
             new_file_path = os.path.join(self.folder_path, new_name)
             os.rename(old_file_path, new_file_path)

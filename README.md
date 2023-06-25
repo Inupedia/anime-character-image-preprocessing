@@ -50,7 +50,11 @@
    ```bash
    pip install -r requirements.txt 
    ```
-3. 添加模型文件：所有的模型都存储在`.u2net`文件夹中（例如/Users/username/.u2net），以下为参考模型：
+3. 将配置文件`module/config_temp.py`更改为`config.py`
+4. 
+
+### 使用图片预处理
+1. 添加模型文件：所有的模型都存储在`.u2net`文件夹中（例如/Users/username/.u2net），以下为参考模型：
    1. u2net ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：适用于一般用途的预训练模型
    2. u2netp ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2netp.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：u2net模型的轻量版
    3. u2net_human_seg ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：适用于人体分割的预训练模型
@@ -59,16 +63,21 @@
    6. isnet-general-use ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/isnet-general-use.onnx), [源码](https://github.com/xuebinqin/DIS))：新的适用于一般用途的预训练模型
    7. isnet-anime ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/isnet-anime.onnx), [源码](https://github.com/SkyTNT/anime-segmentation))：适用于动漫角色的高精度分割模型
    8. sam ([下载编码器](https://github.com/danielgatis/rembg/releases/download/v0.0.0/vit_b-encoder-quant.onnx), [下载解码器](https://github.com/danielgatis/rembg/releases/download/v0.0.0/vit_b-decoder-quant.onnx), [源码](https://github.com/facebookresearch/segment-anything))：适用于任何用途的预训练模型
-
-### 使用图片预处理
-1. 将需要处理的图片放入`src/input`文件夹中
-2. 运行`main.py`：
+2. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+        # 修改为对应的模型名称，如isnet-anime
+        "REMBG_MODEL": "u2net",
+    }
+   ```
+3. 将需要处理的图片放入`src/input`文件夹中
+4. 运行`main.py`：
    ```bash
    python main.py
    ```
 
 ### 使用pixiv爬虫
-1. 将`image_crawler`文件夹下`config_temp.py`更改为`config.py`并修改以下配置，格式如下：
+1. 修改`config.py`中以下配置，格式如下：
    ```python
     NETWORK_CONFIG = {
         # 代理设置（Clash无需修改，SSR需要修改端口号）
@@ -95,6 +104,13 @@
    ```
 
 ### 使用图片命名
+1. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+        # 修改为对应的前缀名称，如illust，将会生成illust_1.jpg、illust_2.jpg等
+        "IMAGE_PREFIX": "illust",
+    }
+   ```
 1. 将需要处理的图片放入`src/input`文件夹中
 2. 运行`main.py`：
    ```bash

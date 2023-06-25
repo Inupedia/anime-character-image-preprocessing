@@ -1,4 +1,4 @@
-from .config import DOWNLOAD_CONFIG
+from ..config import DOWNLOAD_CONFIG
 from .crawlers.users_crawler import UserCrawler
 from .utils import checkDir
 

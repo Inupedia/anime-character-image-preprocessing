@@ -1,3 +1,8 @@
+IMAGE_CONFIG = {
+    "REMBG_MODEL": "u2net",
+    "IMAGE_PREFIX": "illust",
+}
+
 OUTPUT_CONFIG = {
     # verbose / simplified output
     "VERBOSE": False,

@@ -1,6 +1,5 @@
 import argparse
 from module import *
-from image_crawler import ImageCrawler
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -34,7 +33,7 @@ if __name__ == "__main__":
     # If neither --pixiv or --rename is used, run ImageProcessor
     else:
         # Create an instance of the ImageProcessor class
-        processor = ImageProcessor()
+        processor = ImageProcessor(model_name=IMAGE_CONFIG["REMBG_MODEL"])
 
         # Process the images
         processor.process_images()

@@ -1,7 +1,7 @@
 from ..collector.collector import Collector
 from ..collector.collector_unit import collect
 from ..collector.selectors import selectUser
-from ..config import USER_CONFIG
+from ...config import USER_CONFIG
 from ..downloader.downloader import Downloader
 from ..utils import printInfo
 
