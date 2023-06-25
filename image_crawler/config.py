@@ -19,8 +19,8 @@ USER_CONFIG = {
     # user id
     #   access your pixiv user profile to find this
     #   e.g. https://www.pixiv.net/users/xxxx
-    "USER_ID": "25677044",
-    "COOKIE": "first_visit_datetime_pc=2023-05-03+13%3A06%3A34; p_ab_id=4; p_ab_id_2=4; p_ab_d_id=1938885414; yuid_b=KAcZaRU; p_b_type=1; PHPSESSID=25677044_K7gPG7hLX1CT64fkVQj6edewGGYytc0k; device_token=26c0e69bc3b30e23c9757f4c01c56eff; c_type=30; privacy_policy_notification=0; a_type=0; b_type=1; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; login_ever=yes; privacy_policy_agreement=6; tag_view_ranking=Lt-oEicbBr~Ie2c51_4Sp~K8esoIs2eW~2En9amAT9s~pnCQRVigpy~wYgFTHA2CM~1LN8nwTqf_~oAnKp9i65M~0sdG-G1SOF~GdbSSnl725~Ged1jLxcdL~cryvQ5p2Tx~RTJMXD26Ak~75zhzbk0bS~RWSFf7r9Kc~VN7cgWyMmg~qcYo_5oqVP~0PxjkbsmdL~j6r9IfTnfX~CiSfl_AE0h~BvS4LEBHFe~zIv0cf5VVk~oBseebr-Be~RAl80sLAE_~3W7FUHC-JR~pnr0lxGjHI~Qa8ggRsDmW~UtvAYDyBtZ~kGYw4gQ11Z~9AgnrXtsDs; howto_recent_view_history=45362723; __cf_bm=nXisRr.pEWQ6lf0ce5H9yc87UoOsqKVUsHaeif5Fsyc-1687724155-0-ASKYOzoxBBSgOycy2QtCqWmSTtVlswTx+REsf/6oxv44N/s5rgqg4viC9m74hVDy4HezdTnRgb+n0xD0/SPPI6LUPjxszMuubQ0TS52zddDovitDNP2we8kuZ/OpRhmqUw==",
+    "USER_ID": "YOUR_USER_ID",
+    "COOKIE": "YOUR_COOKIE",
 }
 
 
