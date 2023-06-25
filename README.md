@@ -4,8 +4,8 @@
 
 ![GitHub](https://img.shields.io/badge/WIP-未完成-brown)
 
-[![License](https://img.shields.io/badge/License-MIT-green)](./license)
-[![Python](https://img.shields.io/badge/Python-3.8+-blue)](https://www.python.org)
+![License](https://img.shields.io/badge/License-MIT-green)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org)
 </div>
 
 ## 简介
@@ -38,7 +38,7 @@
 
 ### 要求
 
-- Python 3.8或更高版本及其依赖包
+- Python 3.10或更高版本及其依赖包
 - Git (可选)
 
 ### 安装
@@ -50,12 +50,33 @@
    ```bash
    pip install -r requirements.txt 
    ```
-### 使用
+### 使用图片预处理
 1. 将需要处理的图片放入`src/input`文件夹中
 2. 运行`main.py`：
    ```bash
    python main.py
    ```
+### 使用pixiv爬虫
+1. 更改`image_crawler`文件夹下`config.py`配置文件，格式如下：
+   ```python
+    USER_CONFIG = {
+        "USER_ID": "修改成自己的uid，参考个人资料页面的网址https://www.pixiv.net/users/{UID}",
+        "COOKIE": "修改成自己的cookie，获取方式参考以下图文",
+    }
+   ```
+   - 获取cookie的方法：
+     1. 登录[pixiv](https://www.pixiv.net/)
+     2. 按F12打开开发者工具
+     3. 点击Network
+     4. 访问排行榜并刷新页面
+     5. 找到ranking.php并复制其Request Headers中的cookie
+     ![Cookie](image-1.png)
+2. 根据画师ID爬取其pixiv的图片：
+   ```bash
+   python main.py --pixiv
+   ```
 
+## 参考项目
+- [Pixiv爬虫](https://github.com/CWHer/PixivCrawler)
 ## 许可证
 [MIT License](./license)
