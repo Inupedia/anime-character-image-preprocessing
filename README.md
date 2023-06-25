@@ -68,7 +68,7 @@
    ```
 
 ### 使用pixiv爬虫
-1. 更改`image_crawler`文件夹下`config.py`配置文件，格式如下：
+1. 将`image_crawler`文件夹下`config_temp.py`更改为`config.py`并修改以下配置，格式如下：
    ```python
     NETWORK_CONFIG = {
         # 代理设置（Clash无需修改，SSR需要修改端口号）

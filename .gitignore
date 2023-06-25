@@ -11,6 +11,9 @@ __pycache__/
 # Ignore .DS_Store files
 .DS_Store
 
+# Ignore config
+**/config.py
+
 # Ignore images except 3 basic examples
 *.png 
 *.jpg 
