@@ -8,4 +8,5 @@ from .image_processor import ImageProcessor
 from .image_renamer import ImageRenamer
 from .image_crawler import ImageCrawler
 from .image_cropper import ImageCropper
+from .image_scaler import ImageScaler
 from .config import *

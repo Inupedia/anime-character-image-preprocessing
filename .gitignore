@@ -30,4 +30,10 @@ __pycache__/
 !src/readme/illust_1_character.jpeg
 !src/readme/illust_2_character.jpeg
 !src/readme/Cookie.jpg
+
+# ignore .pth models
+*.pth
+
+# ignore test file
+test.py
 ```
