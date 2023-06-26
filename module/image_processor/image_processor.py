@@ -2,7 +2,6 @@ import os
 import io
 from PIL import Image
 from rembg import remove, new_session
-from ..image_cropper import ImageCropper
 from tqdm import tqdm
 
 
@@ -14,7 +13,6 @@ class ImageProcessor:
         self.output_dir = output_dir
         self.model_name = model_name
         self.session = new_session(self.model_name)
-        self.cropper = ImageCropper()
 
     def process_images(self):
         # Get a list of all files in the input directory
@@ -77,9 +75,6 @@ class ImageProcessor:
             # Write the file
             with open(output_path, "wb") as o:
                 o.write(output_data)
-
-            # Crop the image
-            self.cropper.crop_and_save(output_path)
 
             processed_files += 1
 

@@ -34,11 +34,17 @@
     </table>
 </div>
 
-## 使用方法
+## 使用方法及项目功能
+1. [背景去除](#背景去除)
+2. [PIXIV图片下载（谨慎使用）](#pixiv图片下载)
+3. [图片命名](#图片命名)
+4. [图片裁剪](#图片裁剪)
+5. [图片放大](#图片放大)
+6. [混合指令](#混合指令)
 
 ### 要求
 
-- Python 3.10或更高版本及其依赖包
+- Python 3.10或更高版本及其依赖包（见`requirements.txt`）
 - Git (可选)
 
 ### 安装
@@ -51,9 +57,8 @@
    pip install -r requirements.txt 
    ```
 3. 将配置文件`module/config_temp.py`更改为`config.py`
-4. 
-
-### 使用图片预处理
+   
+### 背景去除
 1. 添加模型文件：所有的模型都存储在`.u2net`文件夹中（例如/Users/username/.u2net），以下为参考模型：
    1. u2net ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：适用于一般用途的预训练模型
    2. u2netp ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2netp.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：u2net模型的轻量版
@@ -76,7 +81,8 @@
    python main.py
    ```
 
-### 使用pixiv爬虫
+### PIXIV图片下载
+0. <strong>爬虫请遵守Pixiv的相关规定</strong>
 1. 修改`config.py`中以下配置，格式如下：
    ```python
     NETWORK_CONFIG = {
@@ -103,7 +109,7 @@
    python main.py --pixiv
    ```
 
-### 使用图片命名
+### 图片命名
 1. 修改`config.py`中以下配置，格式如下：
    ```python
     IMAGE_CONFIG = {
@@ -111,10 +117,32 @@
         "IMAGE_PREFIX": "illust",
     }
    ```
-1. 将需要处理的图片放入`src/input`文件夹中
-2. 运行`main.py`：
+2. 将需要处理的图片放入`src/input`文件夹中
+3. 运行`main.py`：
    ```bash
    python main.py --rename
+   ```
+### 图片裁剪
+1. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_crop.png”在同一路径下
+        "CROP_INPUT_DIR": "./src/output/",
+        "CROP_OUTPUT_DIR": "./src/output/",
+    }
+   ```
+2. 运行`main.py`：
+   ```bash
+   python main.py --crop
+   ```
+
+### 图片放大
+进行中
+
+### 混合指令
+如果想要同时使用多个指令，可以使用组合（指令遵循先后顺序），例如先重命名，再对图片去除背景并裁剪：
+   ```bash
+   python main.py --rename --remove-bg --crop
    ```
 
 ## 后续更新

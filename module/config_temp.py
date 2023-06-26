@@ -1,6 +1,8 @@
 IMAGE_CONFIG = {
     "REMBG_MODEL": "u2net",
     "IMAGE_PREFIX": "illust",
+    "CROP_INPUT_DIR": "./src/output/",
+    "CROP_OUTPUT_DIR": "./src/output/",
 }
 
 OUTPUT_CONFIG = {
