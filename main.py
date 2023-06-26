@@ -2,7 +2,10 @@ import sys
 from module import *
 
 ACTIONS = {
-    "--pixiv": lambda id: ImageCrawler(id).run(),
+    "--pixiv-user": lambda id_or_keyword: ImageCrawler("User", id_or_keyword).run(),
+    "--pixiv-keyword": lambda id_or_keyword: ImageCrawler(
+        "Keyword", id_or_keyword
+    ).run(),
     "--rename": lambda _: ImageRenamer().run(),
     "--crop": lambda _: ImageCropper(
         image_directory=IMAGE_CONFIG["CROP_INPUT_DIR"],
@@ -19,10 +22,10 @@ if __name__ == "__main__":
     while args:
         arg = args.pop(0)
         if arg in ACTIONS:
-            if arg == "--pixiv":
-                artist_id = args.pop(0) if args else input("Please input artist id: ")
+            if arg in ["--pixiv-user", "--pixiv-keyword"]:
+                keyword_or_id = args.pop(0) if args else None
             else:
-                artist_id = None
-            ACTIONS[arg](artist_id)
+                keyword_or_id = None
+            ACTIONS[arg](keyword_or_id)
         else:
             print(f"Unknown argument: {arg}")

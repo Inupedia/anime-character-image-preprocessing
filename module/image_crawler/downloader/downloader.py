@@ -5,7 +5,7 @@ from ...config import DOWNLOAD_CONFIG
 from tqdm import tqdm
 from ..utils import printInfo
 
-from .download_image import downloadImage
+from .download_image import ImageDownloader
 
 
 class Downloader:
@@ -16,6 +16,7 @@ class Downloader:
     def __init__(self, capacity):
         self.url_group: Set[str] = set()
         self.capacity = capacity
+        self.downloader = ImageDownloader().download_image
 
     def add(self, urls: Iterable[str]):
         for url in urls:
@@ -28,7 +29,7 @@ class Downloader:
         n_thread = DOWNLOAD_CONFIG["N_THREAD"]
         with futures.ThreadPoolExecutor(n_thread) as executor:
             with tqdm(total=len(self.url_group), desc="downloading") as pbar:
-                for image_size in executor.map(downloadImage, self.url_group):
+                for image_size in executor.map(self.downloader, self.url_group):
                     flow_size += image_size
                     pbar.update()
                     pbar.set_description(f"downloading / flow {flow_size:.2f}MB")

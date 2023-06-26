@@ -107,9 +107,22 @@
         
 2. 根据画师ID爬取其pixiv的图片：
    ```bash
-   python main.py --pixiv 画师ID
+   python main.py --pixiv-user 画师ID
    ```
-
+3. 根据关键字进行下载：
+   1. 修改`config.py`中以下配置，格式如下：
+      ```python
+       IMAGE_CONFIG = {
+            "KEYWORD_ORDER": True,  # True: 按照热度排序，False: 按照最新排序
+            "KEYWORD_N_PAGES": 5,  # 1页为60张图片，实际一页数量会大于60因为有些画集会有多张图片
+            "KEYWORD_MODE": "safe",  # safe / r18 / all 你懂的
+       }
+      ```
+    2. （PIXIV会员功能）关键字可以通过组合的方式进行精确搜索，如"50000users AND hutao"
+    ```bash
+    python main.py --pixiv-keyword "关键字"
+    ```
+    
 ### 图片命名
 1. 修改`config.py`中以下配置，格式如下：
    ```python

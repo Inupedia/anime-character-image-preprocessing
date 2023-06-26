@@ -38,7 +38,7 @@ HF_MODELS = {
 }
 
 
-class ImageScaler:
+class RealESRGAN:
     def __init__(self, device, scale=0):
         self.device = device
         self.scale = scale

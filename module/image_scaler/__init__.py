@@ -1,1 +1,1 @@
-from .real_esrgan import ImageScaler
+from .image_scaler import ImageScaler

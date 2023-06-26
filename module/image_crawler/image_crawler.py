@@ -1,17 +1,26 @@
 from ..config import DOWNLOAD_CONFIG
-from .crawlers.users_crawler import UserCrawler
+from .crawlers import *
 from .utils import checkDir
 
 
+class ImageCrawlerFactory:
+    _crawlers = {"User": UserCrawler, "Keyword": KeywordCrawler}
+
+    @staticmethod
+    def create_crawler(crawler_type, keyword_or_id, capacity=200):
+        print(keyword_or_id)
+        if crawler_type in ImageCrawlerFactory._crawlers:
+            return ImageCrawlerFactory._crawlers[crawler_type](keyword_or_id, capacity)
+        else:
+            raise ValueError(f"Invalid crawler_type: {crawler_type}")
+
+
 class ImageCrawler:
-    def __init__(self, artist_id, capacity=200):
+    def __init__(self, crawler_type, keyword_or_id, capacity=200):
         checkDir(DOWNLOAD_CONFIG["STORE_PATH"])
-        self.artist_id = artist_id
-        self.capacity = capacity
-        self.crawler = UserCrawler(artist_id, capacity)
+        self.crawler = ImageCrawlerFactory.create_crawler(
+            crawler_type, keyword_or_id, capacity
+        )
 
     def run(self):
-        if not self.artist_id.isdigit():
-            print("artist id must be a number!")
-            return
         return self.crawler.run()

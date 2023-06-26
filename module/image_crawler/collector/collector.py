@@ -3,7 +3,7 @@ import json
 from typing import Dict, Iterable, List, Set
 
 from ...config import DOWNLOAD_CONFIG, USER_CONFIG
-from ..downloader.downloader import Downloader
+from ..downloader import Downloader
 from tqdm import tqdm
 from ..utils import printInfo
 
