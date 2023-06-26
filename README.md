@@ -119,9 +119,9 @@
        }
       ```
     2. （PIXIV会员功能）关键字可以通过组合的方式进行精确搜索，如"50000users AND hutao"
-    ```bash
-    python main.py --pixiv-keyword "关键字"
-    ```
+        ```bash
+        python main.py --pixiv-keyword "关键字"
+        ```
     
 ### 图片命名
 1. 修改`config.py`中以下配置，格式如下：
