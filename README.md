@@ -169,8 +169,8 @@
 ## 参考项目
 - [PixivCrawler](https://github.com/CWHer/PixivCrawler)
 - [rembg](https://github.com/danielgatis/rembg)
-- [Real-ESRGAN](https://github.com/ai-forever/Real-ESRGAN)
+- [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)
 
 
 ## 许可证
-[MIT License](./license)
+[MIT License](https://github.com/Inupedia/sd-character-image-preprocessing/blob/main/LICENSE)
