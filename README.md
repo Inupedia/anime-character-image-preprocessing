@@ -36,7 +36,7 @@
 
 ## 使用方法及项目功能
 1. [背景去除](#背景去除)
-2. [PIXIV图片下载（谨慎使用）](#pixiv图片下载)
+2. [PIXIV图片下载](#pixiv图片下载)
 3. [图片命名](#图片命名)
 4. [图片裁剪](#图片裁剪)
 5. [图片放大(进行中)](#图片放大)
@@ -83,7 +83,7 @@
    ```
 
 ### PIXIV图片下载
-0. <strong>爬虫请遵守Pixiv的相关规定</strong>
+0. <strong>爬虫请遵守Pixiv的[相关规定](https://www.pixiv.net/robots.txt)</strong>
 1. 修改`config.py`中以下配置，格式如下：
    ```python
     NETWORK_CONFIG = {
