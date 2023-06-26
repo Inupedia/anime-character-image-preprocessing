@@ -20,16 +20,16 @@
             <td>处理后图片</td>
         </tr>
         <tr>
-            <td><img src="./src/readme/illust_0.jpeg" width="500px"></td>
-            <td><img src="./src/readme/illust_0_character.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_0.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_0_character.jpeg" width="500px"></td>
         </tr>
         <tr>
-            <td><img src="./src/readme/illust_1.jpeg" width="500px"></td>
-            <td><img src="./src/readme/illust_1_character.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_1.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_1_character.jpeg" width="500px"></td>
         </tr>
         <tr>
-            <td><img src="./src/readme/illust_2.jpeg" width="500px"></td>
-            <td><img src="./src/readme/illust_2_character.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_2.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_2_character.jpeg" width="500px"></td>
         </tr>
     </table>
 </div>
@@ -102,7 +102,7 @@
      4. 访问排行榜并刷新页面
      5. 找到ranking.php并复制其Request Headers中的cookie
         <div>
-            <img src="./src/readme/Cookie.jpg" width="800px"></img>
+            <img src="./assets/Cookie.jpg" width="800px"></img>
         </div>
         
 2. 根据画师ID爬取其pixiv的图片：

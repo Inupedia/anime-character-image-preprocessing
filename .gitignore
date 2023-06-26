@@ -23,13 +23,13 @@ __pycache__/
 *.tiff 
 *.tif 
 *.svg
-!src/readme/illust_0.jpeg
-!src/readme/illust_1.jpeg
-!src/readme/illust_2.jpeg
-!src/readme/illust_0_character.jpeg
-!src/readme/illust_1_character.jpeg
-!src/readme/illust_2_character.jpeg
-!src/readme/Cookie.jpg
+!assets/illust_0.jpeg
+!assets/illust_1.jpeg
+!assets/illust_2.jpeg
+!assets/illust_0_character.jpeg
+!assets/illust_1_character.jpeg
+!assets/illust_2_character.jpeg
+!assets/Cookie.jpg
 
 # ignore .pth models
 *.pth
