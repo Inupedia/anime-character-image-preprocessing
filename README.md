@@ -107,7 +107,7 @@
         
 2. 根据画师ID爬取其pixiv的图片：
    ```bash
-   python main.py --pixiv
+   python main.py --pixiv 画师ID
    ```
 
 ### 图片命名
