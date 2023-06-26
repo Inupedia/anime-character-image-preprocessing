@@ -39,8 +39,9 @@
 2. [PIXIV图片下载（谨慎使用）](#pixiv图片下载)
 3. [图片命名](#图片命名)
 4. [图片裁剪](#图片裁剪)
-5. [图片放大](#图片放大)
-6. [混合指令](#混合指令)
+5. [图片放大(进行中)](#图片放大)
+6. [智能裁剪(进行中)](#智能裁剪)
+7. [混合指令](#混合指令)
 
 ### 要求
 
@@ -139,6 +140,9 @@
 ### 图片放大
 进行中
 
+### 智能裁剪
+进行中
+
 ### 混合指令
 如果想要同时使用多个指令，可以使用组合（指令遵循先后顺序），例如先重命名，再对图片去除背景并裁剪：
    ```bash
@@ -150,8 +154,9 @@
 - [ ] 无损放大图片
   
 ## 参考项目
-- [Pixiv爬虫](https://github.com/CWHer/PixivCrawler)
-- [背景去除](https://github.com/danielgatis/rembg)
+- [PixivCrawler](https://github.com/CWHer/PixivCrawler)
+- [rembg](https://github.com/danielgatis/rembg)
+- [Real-ESRGAN](https://github.com/ai-forever/Real-ESRGAN)
 
 
 ## 许可证
