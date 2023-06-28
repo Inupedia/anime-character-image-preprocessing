@@ -1,6 +1,6 @@
 <div align="center">
 
-# Character Image Preprocessing
+# Anime Character Image Preprocessing
 
 ![GitHub](https://img.shields.io/badge/WIP-未完成-brown)
 
