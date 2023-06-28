@@ -57,13 +57,20 @@
    ```bash
    git clone https://github.com/Inupedia/sd-character-image-preprocessing
    ```
-2. 安装所需的软件包：
+2. 进入项目文件夹创建python环境并激活（可选）：
+   ```bash
+   cd sd-character-image-preprocessing
+   python3.11 -m venv venv #这里采用3.11版本
+   source venv/bin/activate
+   ```
+3. 安装所需的软件包：
    ```bash
    pip install -r requirements.txt 
    ```
-3. 将配置文件`module/config_temp.py`更改为`config.py`
+4. 将配置文件`module/config_temp.py`更改为`config.py`
    
 ### 背景去除
+根据人物检测模型进行背景去除，请根据自己的需求选择模型（如isnet-anime对应二次元角色）。
 1. 添加模型文件：所有的模型都存储在`.u2net`文件夹中（例如/Users/username/.u2net），以下为参考模型：
    1. u2net ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：适用于一般用途的预训练模型
    2. u2netp ([下载](https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2netp.onnx), [源码](https://github.com/xuebinqin/U-2-Net))：u2net模型的轻量版
@@ -87,8 +94,9 @@
    ```
 
 ### PIXIV图片下载
-0. <strong>爬虫请遵守Pixiv的[相关规定](https://www.pixiv.net/robots.txt)</strong>
-1. 修改`config.py`中以下配置，格式如下：
+此功能主要满足两个需求，一通过画师ID下载画师的所有作品，二通过关键字下载相关作品（数量会根据对应页数进行下载）。
+1. <strong>爬虫请遵守Pixiv的[相关规定](https://www.pixiv.net/robots.txt)</strong>
+2. 修改`config.py`中以下配置，格式如下：
    ```python
     NETWORK_CONFIG = {
         # 代理设置（Clash无需修改，SSR需要修改端口号）
@@ -109,11 +117,11 @@
             <img src="./assets/Cookie.jpg" width="800px"></img>
         </div>
         
-2. 根据画师ID爬取其pixiv的图片：
+3. 根据画师ID爬取其pixiv的图片：
    ```bash
    python main.py --pixiv-user 画师ID
    ```
-3. 根据关键字进行下载：
+4. 根据关键字进行下载：
    1. 修改`config.py`中以下配置，格式如下：
       ```python
        IMAGE_CONFIG = {
@@ -141,12 +149,13 @@
    python main.py --rename
    ```
 ### 图片裁剪
+普通的裁剪只会将多余的白色背景部分进行最大程度的剪切，需配合背景去除达到人物裁剪的效果。
 1. 修改`config.py`中以下配置，格式如下：
    ```python
     IMAGE_CONFIG = {
-        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_crop.png”在同一路径下
-        "CROP_INPUT_DIR": "./src/output/",
-        "CROP_OUTPUT_DIR": "./src/output/",
+        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_crop.png”在同一路径下，如需不同路径请先生成对应路径
+        "CROP_INPUT_DIR": "./src/rm_bg_output/",
+        "CROP_OUTPUT_DIR": "./src/crop_output/",
     }
    ```
 2. 运行`main.py`：
@@ -162,9 +171,9 @@
 1. 修改`config.py`中以下配置，格式如下：
    ```python
     IMAGE_CONFIG = {
-        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_crop.png”在同一路径下
-        "SMARTCROP_INPUT_DIR": "./src/output/",
-        "SMARTCROP_OUTPUT_DIR": "./src/output/",
+        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_smartcrop_数字.png”在同一路径下，如需不同路径请先生成对应路径
+        "SMARTCROP_INPUT_DIR": "./src/rm_bg_output/",
+        "SMARTCROP_OUTPUT_DIR": "./src/smartcrop_output/",
     }
    ```
 2. 运行`main.py`：
@@ -173,9 +182,9 @@
    ```
 
 ### 混合指令
-如果想要同时使用多个指令，可以使用组合（指令遵循先后顺序），例如先重命名，再对图片去除背景并裁剪：
+混合指令可以满足多任务按先后顺序执行，如果想要同时使用多个指令，可以使用组合如下。
    ```bash
-   python main.py --rename --remove-bg --crop
+   python main.py --rename --remove-bg --crop #先重命名，再对图片去除背景并裁剪
    ```
 
 ## 后续更新

@@ -24,9 +24,12 @@ class ImageCropper:
             thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
         )
 
-        # get the minimum bounding rectangle for the largest contour
-        cnt = max(contours, key=cv2.contourArea)
-        x, y, w, h = cv2.boundingRect(cnt)
+        # Create bounding box for all contours
+        boxes = [cv2.boundingRect(c) for c in contours]
+        x = min([b[0] for b in boxes])
+        y = min([b[1] for b in boxes])
+        w = max([b[0] + b[2] for b in boxes]) - x
+        h = max([b[1] + b[3] for b in boxes]) - y
 
         return x, y, w, h
 

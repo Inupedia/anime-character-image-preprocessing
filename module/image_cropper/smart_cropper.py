@@ -1,5 +1,6 @@
 import cv2
 import os
+from PIL import Image
 from ..config import IMAGE_CONFIG
 
 
@@ -54,11 +55,22 @@ class SmartCropper:
                 )
                 cv2.imwrite(output_path, cropped)
 
+    def load_all_images(self):
+        self.image_files = []
+        all_files = os.listdir(self.image_directory)
+        for filename in all_files:
+            try:
+                Image.open(
+                    os.path.join(self.image_directory, filename)
+                )  # Try to open the file with PIL
+                self.image_files.append(
+                    filename
+                )  # If it succeeds, add the filename to the list
+            except IOError:
+                pass  # If it fails, ignore the file
+
     def process_directory(self, input_directory):
-        for filename in os.listdir(input_directory):
-            if (
-                filename.endswith(".jpg")
-                or filename.endswith(".png")
-                or filename.endswith(".jpeg")
-            ):
-                self.process_image(os.path.join(input_directory, filename))
+        self.image_directory = input_directory
+        self.load_all_images()
+        for filename in self.image_files:
+            self.process_image(os.path.join(input_directory, filename))

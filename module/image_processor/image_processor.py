@@ -7,7 +7,10 @@ from tqdm import tqdm
 
 class ImageProcessor:
     def __init__(
-        self, input_dir="./src/input", output_dir="./src/output", model_name="u2net"
+        self,
+        input_dir="./src/input",
+        output_dir="./src/rm_bg_output",
+        model_name="u2net",
     ):
         self.input_dir = input_dir
         self.output_dir = output_dir

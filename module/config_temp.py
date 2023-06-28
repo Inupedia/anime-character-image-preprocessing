@@ -1,10 +1,10 @@
 IMAGE_CONFIG = {
     "REMBG_MODEL": "u2net",
     "IMAGE_PREFIX": "illust",
-    "CROP_INPUT_DIR": "./src/output/",
-    "CROP_OUTPUT_DIR": "./src/output/",
-    "SMARTCROP_INPUT_DIR": "./src/output/",
-    "SMARTCROP_OUTPUT_DIR": "./src/output/",
+    "CROP_INPUT_DIR": "./src/rm_bg_output/",
+    "CROP_OUTPUT_DIR": "./src/crop_output/",
+    "SMARTCROP_INPUT_DIR": "./src/rm_bg_output/",
+    "SMARTCROP_OUTPUT_DIR": "./src/smartcrop_output/",
     "KEYWORD_ORDER": True,  # True: popular / False: latest
     "KEYWORD_N_PAGES": 5,  # 1 page = 60 images
     "KEYWORD_MODE": "safe",  # safe / r18 / all
