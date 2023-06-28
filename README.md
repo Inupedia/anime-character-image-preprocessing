@@ -16,9 +16,9 @@
 <div align="center">
     <table>
         <tr>
-            <td style="text-align: center;">原始图片</td>
-            <td style="text-align: center;">人物裁剪</td>
-            <td style="text-align: center;">智能裁剪 (512 * 512)</td>
+            <td>原始图片</td>
+            <td>人物裁剪</td>
+            <td>智能裁剪 (512 * 512)</td>
         </tr>
         <tr>
             <td><img src="./assets/illust_0.jpeg" width="500px"></td>
