@@ -7,16 +7,13 @@ ACTIONS = {
         "Keyword", id_or_keyword
     ).run(),
     "--rename": lambda _: ImageRenamer().run(),
-    "--crop": lambda _: ImageCropper(
-        image_directory=IMAGE_CONFIG["CROP_INPUT_DIR"],
-        save_directory=IMAGE_CONFIG["CROP_OUTPUT_DIR"],
-    ).crop_and_save_all(),
+    "--boundary-crop": lambda _: ImageCropper("boundary-crop").create_cropper().crop_and_save_all(),
     "--remove-bg": lambda _: ImageProcessor(
         model_name=IMAGE_CONFIG["REMBG_MODEL"]
     ).process_images(),
-    "--smartcrop": lambda _: SmartCropper().process_directory(
-        IMAGE_CONFIG["SMARTCROP_INPUT_DIR"]
-    ),
+    "--smart-crop": lambda _: ImageCropper("smart-crop")
+    .create_cropper()
+    .crop_and_save_all(),
 }
 
 if __name__ == "__main__":

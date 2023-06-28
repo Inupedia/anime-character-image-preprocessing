@@ -10,14 +10,14 @@
 
 ## 简介
 
-基于Python的角色图像预处理工具，通过自动背景透明化、角色裁剪、图片无损放大等操作，将角色图像转换为可用于训练的数据集。
+基于Python的角色图像预处理工具，通过背景透明化、边缘裁剪、智能裁剪、图片无损放大等操作，将角色图像转换为可用于训练的数据集。
 
 ### 图片处理对比（以下图片均由SD生成）
 <div align="center">
     <table>
         <tr>
             <td>原始图片</td>
-            <td>人物裁剪</td>
+            <td>边缘裁剪</td>
             <td>智能裁剪 (512 * 512)</td>
         </tr>
         <tr>
@@ -41,11 +41,11 @@
 ## 使用方法及项目功能
 每个功能都可以独立执行，也可以通过[混合指令](#混合指令)进行搭配使用。
 1. [背景去除](#背景去除)
-2. [PIXIV图片下载](#pixiv图片下载)
-3. [图片命名](#图片命名)
-4. [图片裁剪](#图片裁剪)
-5. [图片放大(进行中)](#图片放大)
-6. [智能裁剪](#智能裁剪)
+2. [边缘裁剪](#边缘裁剪)
+3. [智能裁剪](#智能裁剪)
+4. [图片放大(进行中)](#图片放大)
+5. [图片命名](#图片命名)
+6. [PIXIV图片下载](#pixiv图片下载)
 
 ### 要求
 
@@ -93,6 +93,53 @@
    python main.py -remove-bg
    ```
 
+### 边缘裁剪
+普通的裁剪只会将多余的白色背景部分进行最大程度的剪切，需配合背景去除达到人物裁剪的效果。
+1. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_crop.png”在同一路径下，如需不同路径请先生成对应路径
+        "BOUNDARY_CROP_INPUT_DIR": "./src/rm_bg_output/",
+        "BOUNDARY_CROP_OUTPUT_DIR": "./src/boundary_crop_output/",
+    }
+   ```
+2. 运行`main.py`：
+   ```bash
+   python main.py --boundary-crop
+   ```
+
+### 智能裁剪
+智能裁剪可以搭配背景去除使用，注意在图像分辨率不高的情况下裁剪的人物会低512x512，因此建议裁剪后进行放大处理。一图多人的情况下会根据脸部特征自动裁剪出多张图片，但不适用太密集的情况。
+1. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_smartcrop_数字.png”在同一路径下，如需不同路径请先生成对应路径
+        "SMART_CROP_INPUT_DIR": "./src/rm_bg_output/",
+        "SMART_CROP_OUTPUT_DIR": "./src/smart_crop_output/",
+    }
+   ```
+2. 运行`main.py`：
+   ```bash
+   python main.py --smart-crop
+   ```
+
+### 图片放大
+进行中
+
+### 图片命名
+1. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+        # 修改为对应的前缀名称，如illust，将会生成illust_1.jpg、illust_2.jpg等
+        "IMAGE_PREFIX": "illust",
+    }
+   ```
+2. 将需要处理的图片放入`src/input`文件夹中
+3. 运行`main.py`：
+   ```bash
+   python main.py --rename
+   ```
+
 ### PIXIV图片下载
 此功能主要满足两个需求，一通过画师ID下载画师的所有作品，二通过关键字下载相关作品（数量会根据对应页数进行下载）。
 1. <strong>爬虫请遵守Pixiv的[相关规定](https://www.pixiv.net/robots.txt)</strong>
@@ -135,56 +182,10 @@
         python main.py --pixiv-keyword "关键字"
         ```
     
-### 图片命名
-1. 修改`config.py`中以下配置，格式如下：
-   ```python
-    IMAGE_CONFIG = {
-        # 修改为对应的前缀名称，如illust，将会生成illust_1.jpg、illust_2.jpg等
-        "IMAGE_PREFIX": "illust",
-    }
-   ```
-2. 将需要处理的图片放入`src/input`文件夹中
-3. 运行`main.py`：
-   ```bash
-   python main.py --rename
-   ```
-### 图片裁剪
-普通的裁剪只会将多余的白色背景部分进行最大程度的剪切，需配合背景去除达到人物裁剪的效果。
-1. 修改`config.py`中以下配置，格式如下：
-   ```python
-    IMAGE_CONFIG = {
-        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_crop.png”在同一路径下，如需不同路径请先生成对应路径
-        "CROP_INPUT_DIR": "./src/rm_bg_output/",
-        "CROP_OUTPUT_DIR": "./src/crop_output/",
-    }
-   ```
-2. 运行`main.py`：
-   ```bash
-   python main.py --crop
-   ```
-
-### 图片放大
-进行中
-
-### 智能裁剪
-智能裁剪可以搭配背景去除使用，注意在图像分辨率不高的情况下裁剪的人物会低512x512，因此建议裁剪后进行放大处理。一图多人的情况下会根据脸部特征自动裁剪出多张图片，但不适用太密集的情况。
-1. 修改`config.py`中以下配置，格式如下：
-   ```python
-    IMAGE_CONFIG = {
-        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_smartcrop_数字.png”在同一路径下，如需不同路径请先生成对应路径
-        "SMARTCROP_INPUT_DIR": "./src/rm_bg_output/",
-        "SMARTCROP_OUTPUT_DIR": "./src/smartcrop_output/",
-    }
-   ```
-2. 运行`main.py`：
-   ```bash
-   python main.py --smartcrop
-   ```
-
 ### 混合指令
 混合指令可以满足多任务按先后顺序执行，如果想要同时使用多个指令，可以使用组合如下。
    ```bash
-   python main.py --rename --remove-bg --crop #先重命名，再对图片去除背景并裁剪
+   python main.py --rename --remove-bg --boundary-crop #先重命名，再对图片去除背景并边缘裁剪
    ```
 
 ## 后续更新

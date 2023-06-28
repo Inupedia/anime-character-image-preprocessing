@@ -1,6 +1,7 @@
 import cv2
 import os
 from PIL import Image
+from tqdm import tqdm
 from ..config import IMAGE_CONFIG
 
 
@@ -43,15 +44,15 @@ class SmartCropper:
                 resized = cv2.resize(cropped, (512, 512))
                 filename, ext = os.path.splitext(os.path.basename(image_path))
                 output_path = os.path.join(
-                    IMAGE_CONFIG["SMARTCROP_OUTPUT_DIR"],
-                    f"{filename}_smartcrop_{idx}{ext}",
+                    IMAGE_CONFIG["SMART_CROP_OUTPUT_DIR"],
+                    f"{filename}_smart_crop_{idx}{ext}",
                 )
                 cv2.imwrite(output_path, resized)
             else:
                 filename, ext = os.path.splitext(os.path.basename(image_path))
                 output_path = os.path.join(
-                    IMAGE_CONFIG["SMARTCROP_OUTPUT_DIR"],
-                    f"{filename}_smartcrop_{idx}{ext}",
+                    IMAGE_CONFIG["SMART_CROP_OUTPUT_DIR"],
+                    f"{filename}_smart_crop_{idx}{ext}",
                 )
                 cv2.imwrite(output_path, cropped)
 
@@ -69,8 +70,8 @@ class SmartCropper:
             except IOError:
                 pass  # If it fails, ignore the file
 
-    def process_directory(self, input_directory):
-        self.image_directory = input_directory
+    def crop_and_save_all(self):
+        self.image_directory = IMAGE_CONFIG["SMART_CROP_INPUT_DIR"]
         self.load_all_images()
-        for filename in self.image_files:
-            self.process_image(os.path.join(input_directory, filename))
+        for filename in tqdm(self.image_files, desc="Processing images"):
+            self.process_image(os.path.join(self.image_directory, filename))
