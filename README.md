@@ -1,6 +1,6 @@
 <div align="center">
 
-# Anime Character Image Preprocessing
+# 动漫角色图片预处理
 
 ![GitHub](https://img.shields.io/badge/WIP-未完成-brown)
 
@@ -188,7 +188,7 @@
    python main.py --rename --remove-bg --boundary-crop #先重命名，再对图片去除背景并边缘裁剪
    ```
 
-## 后续更新
+## 后续更新（如果有需求🤣）
 - [ ] 无损放大图片
   
 ## 参考项目
