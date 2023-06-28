@@ -14,6 +14,9 @@ ACTIONS = {
     "--remove-bg": lambda _: ImageProcessor(
         model_name=IMAGE_CONFIG["REMBG_MODEL"]
     ).process_images(),
+    "--smartcrop": lambda _: SmartCropper().process_directory(
+        IMAGE_CONFIG["SMARTCROP_INPUT_DIR"]
+    ),
 }
 
 if __name__ == "__main__":

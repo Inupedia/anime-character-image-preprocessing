@@ -17,19 +17,23 @@
     <table>
         <tr>
             <td>原始图片</td>
-            <td>处理后图片</td>
+            <td>人物裁剪</td>
+            <td>智能裁剪 (512 * 512)</td>
         </tr>
         <tr>
             <td><img src="./assets/illust_0.jpeg" width="500px"></td>
             <td><img src="./assets/illust_0_character.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_0_smartcrop_0.jpeg" width="500px"></td>
         </tr>
         <tr>
             <td><img src="./assets/illust_1.jpeg" width="500px"></td>
             <td><img src="./assets/illust_1_character.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_1_smartcrop_0.jpeg" width="500px"></td>
         </tr>
         <tr>
             <td><img src="./assets/illust_2.jpeg" width="500px"></td>
             <td><img src="./assets/illust_2_character.jpeg" width="500px"></td>
+            <td><img src="./assets/illust_2_smartcrop_0.jpeg" width="500px"></td>
         </tr>
     </table>
 </div>
@@ -41,7 +45,7 @@
 3. [图片命名](#图片命名)
 4. [图片裁剪](#图片裁剪)
 5. [图片放大(进行中)](#图片放大)
-6. [智能裁剪(进行中)](#智能裁剪)
+6. [智能裁剪](#智能裁剪)
 
 ### 要求
 
@@ -154,7 +158,18 @@
 进行中
 
 ### 智能裁剪
-进行中
+1. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+        # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_crop.png”在同一路径下
+        "SMARTCROP_INPUT_DIR": "./src/output/",
+        "SMARTCROP_OUTPUT_DIR": "./src/output/",
+    }
+   ```
+2. 运行`main.py`：
+   ```bash
+   python main.py --smartcrop
+   ```
 
 ### 混合指令
 如果想要同时使用多个指令，可以使用组合（指令遵循先后顺序），例如先重命名，再对图片去除背景并裁剪：
@@ -163,7 +178,6 @@
    ```
 
 ## 后续更新
-- [ ] 根据人脸位置进行正方形图片裁剪
 - [ ] 无损放大图片
   
 ## 参考项目

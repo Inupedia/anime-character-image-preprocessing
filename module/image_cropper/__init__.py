@@ -1,2 +1,2 @@
 from .image_cropper import ImageCropper
-from .auto_cropper import AutoCropper
+from .smart_cropper import SmartCropper

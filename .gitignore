@@ -29,6 +29,9 @@ __pycache__/
 !assets/illust_0_character.jpeg
 !assets/illust_1_character.jpeg
 !assets/illust_2_character.jpeg
+!assets/illust_0_smartcrop_0.jpeg
+!assets/illust_1_smartcrop_0.jpeg
+!assets/illust_2_smartcrop_0.jpeg
 !assets/Cookie.jpg
 
 # ignore .pth models
