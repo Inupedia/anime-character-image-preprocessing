@@ -136,7 +136,8 @@
          "IMAGE_TAGGER_CONFIDENCE": 0.5, #置信度，越高越准确，但可能会漏掉一些标签
     }
    ```
-2. 运行`main.py`：
+2. 下载[wd-v1-4-convnextv2-tagger-v2模型](https://huggingface.co/SmilingWolf/wd-v1-4-convnextv2-tagger-v2/blob/main/model.onnx)和[selected_tags](https://huggingface.co/SmilingWolf/wd-v1-4-convnextv2-tagger-v2/blob/main/selected_tags.csv)至`module/image_tagger/model`文件夹中
+3. 运行`main.py`：
    ```bash
    python main.py --tagger
    ```
