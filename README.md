@@ -127,7 +127,7 @@
 ### 图片标签
 | 原始图片 | Tagger (50% Confidence) |
 | :--------: | :--------: |
-| ![Image](./assets/illust_3.jpeg) [1] | boat, lily pad, flower, multiple girls, 2girls, water, watercraft, lotus, hanfu, sitting, outdoors, black hair, hair flower, hair ornament, chinese clothes, day, holding, long hair, long sleeves, sash, smile, pink flower, looking at another, bangs, hair bun, sidelocks, braid, single hair bun |
+| ![Image](./assets/illust_3.jpeg) [^1] | boat, lily pad, flower, multiple girls, 2girls, water, watercraft, lotus, hanfu, sitting, outdoors, black hair, hair flower, hair ornament, chinese clothes, day, holding, long hair, long sleeves, sash, smile, pink flower, looking at another, bangs, hair bun, sidelocks, braid, single hair bun |
 
 1. 修改`config.py`中以下配置，格式如下：
    ```python
@@ -214,9 +214,7 @@
 - [rembg](https://github.com/danielgatis/rembg)
 - [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)
 
-### Reference
-[1]: [误入藕花深处](https://www.liblibai.com/imageinfo/332ef1eda104a78f9132d4c79d9a7f69)
-
-
 ## 许可证
 [MIT License](https://github.com/Inupedia/sd-character-image-preprocessing/blob/main/LICENSE)
+
+[^1]: [误入藕花深处](https://www.liblibai.com/imageinfo/332ef1eda104a78f9132d4c79d9a7f69)
