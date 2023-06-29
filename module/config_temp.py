@@ -8,6 +8,8 @@ IMAGE_CONFIG = {
     "KEYWORD_ORDER": True,  # True: popular / False: latest
     "KEYWORD_N_PAGES": 5,  # 1 page = 60 images
     "KEYWORD_MODE": "safe",  # safe / r18 / all
+    "IMAGE_TAGGER_INPUT_DIR": "./src/input/",
+    "IMAGE_TAGGER_CONFIDENCE": 0.5,
 }
 
 OUTPUT_CONFIG = {

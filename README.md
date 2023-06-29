@@ -10,7 +10,7 @@
 
 ## 简介
 
-基于Python的角色图像预处理工具，通过背景透明化、边缘裁剪、智能裁剪、图片无损放大等操作，将角色图像转换为可用于训练的数据集。
+基于Python的角色图像预处理工具，通过背景透明化、边缘裁剪、智能裁剪、图片标签(Tagger)、图片无损放大等操作，将角色图像转换为可用于训练的数据集。
 
 ### 图片处理对比（以下图片均由SD生成）
 <div align="center">
@@ -43,9 +43,10 @@
 1. [背景去除](#背景去除)
 2. [边缘裁剪](#边缘裁剪)
 3. [智能裁剪](#智能裁剪)
-4. [图片放大(进行中)](#图片放大)
-5. [图片命名](#图片命名)
-6. [PIXIV图片下载](#pixiv图片下载)
+4. [图片标签](#图片标签)
+5. [图片放大(进行中)](#图片放大)
+6. [图片命名](#图片命名)
+7. [PIXIV图片下载](#pixiv图片下载)
 
 ### 要求
 
@@ -123,6 +124,23 @@
    python main.py --smart-crop
    ```
 
+### 图片标签
+| 原始图片 | Tagger (50% Confidence) |
+| :--------: | :--------: |
+| ![Image](./assets/illust_3.jpeg) [1] | boat, lily pad, flower, multiple girls, 2girls, water, watercraft, lotus, hanfu, sitting, outdoors, black hair, hair flower, hair ornament, chinese clothes, day, holding, long hair, long sleeves, sash, smile, pink flower, looking at another, bangs, hair bun, sidelocks, braid, single hair bun |
+
+1. 修改`config.py`中以下配置，格式如下：
+   ```python
+    IMAGE_CONFIG = {
+         "IMAGE_TAGGER_INPUT_DIR": "./src/input/", #需要标签的图片目录
+         "IMAGE_TAGGER_CONFIDENCE": 0.5, #置信度，越高越准确，但可能会漏掉一些标签
+    }
+   ```
+2. 运行`main.py`：
+   ```bash
+   python main.py --tagger
+   ```
+
 ### 图片放大
 进行中
 
@@ -163,7 +181,7 @@
         <div>
             <img src="./assets/Cookie.jpg" width="800px"></img>
         </div>
-        
+   
 3. 根据画师ID爬取其pixiv的图片：
    ```bash
    python main.py --pixiv-user 画师ID
@@ -181,7 +199,7 @@
         ```bash
         python main.py --pixiv-keyword "关键字"
         ```
-    
+   
 ### 混合指令
 混合指令可以满足多任务按先后顺序执行，如果想要同时使用多个指令，可以使用组合如下。
    ```bash
@@ -195,6 +213,9 @@
 - [PixivCrawler](https://github.com/CWHer/PixivCrawler)
 - [rembg](https://github.com/danielgatis/rembg)
 - [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)
+
+### Reference
+[1]: [误入藕花深处](https://www.liblibai.com/imageinfo/332ef1eda104a78f9132d4c79d9a7f69)
 
 
 ## 许可证

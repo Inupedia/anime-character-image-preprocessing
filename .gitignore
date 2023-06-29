@@ -26,6 +26,7 @@ __pycache__/
 !assets/illust_0.jpeg
 !assets/illust_1.jpeg
 !assets/illust_2.jpeg
+!assets/illust_3.jpeg
 !assets/illust_0_character.jpeg
 !assets/illust_1_character.jpeg
 !assets/illust_2_character.jpeg
@@ -34,9 +35,14 @@ __pycache__/
 !assets/illust_2_smartcrop_0.jpeg
 !assets/Cookie.jpg
 
-# ignore .pth models
+# ignore .pth onnx models & tagger info
 *.pth
+*.onnx
+*.csv
 
 # ignore test file
 test.py
+
+#ignore txt
+*.txt
 ```
