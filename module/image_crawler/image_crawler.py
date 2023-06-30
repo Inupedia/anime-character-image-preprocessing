@@ -19,7 +19,7 @@ class ImageCrawler:
     def __init__(self, crawler_type, keyword_or_id, capacity=200):
         checkDir(DOWNLOAD_CONFIG["STORE_PATH"])
         self.crawler = ImageCrawlerFactory.create_crawler(
-            crawler_type, keyword_or_id, capacity
+            crawler_type, keyword_or_id[0], capacity
         )
 
     def run(self):
