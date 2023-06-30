@@ -2,8 +2,6 @@
 
 # 动漫角色图片预处理
 
-![GitHub](https://img.shields.io/badge/WIP-未完成-brown)
-
 ![License](https://img.shields.io/badge/License-MIT-green)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org)
 </div>
