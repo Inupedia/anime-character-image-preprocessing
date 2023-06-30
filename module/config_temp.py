@@ -10,6 +10,8 @@ IMAGE_CONFIG = {
     "KEYWORD_MODE": "safe",  # safe / r18 / all
     "IMAGE_TAGGER_INPUT_DIR": "./src/input/",
     "IMAGE_TAGGER_CONFIDENCE": 0.5,
+    "HF_REPO_ID": "inupedia/anime-character-image-preprocessing",
+    "HF_MODEL_DIR": "./module/model/",
 }
 
 OUTPUT_CONFIG = {

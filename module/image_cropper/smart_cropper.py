@@ -4,7 +4,6 @@ from PIL import Image
 from tqdm import tqdm
 from ..config import IMAGE_CONFIG
 from .face_detector import FaceDetector
-from .head_detector import HeadDetector
 
 
 class SmartCropper:
@@ -12,8 +11,7 @@ class SmartCropper:
         cascade_path = os.path.join(os.path.dirname(__file__), cascade_file)
         self.face_cascade = cv2.CascadeClassifier(cascade_path)
         self.scale = scale
-        self.detector = FaceDetector()
-        self.head_detector = HeadDetector()
+        self.face_detector = FaceDetector()
 
     def calculate_crop_coordinates(self, face_x, face_y, face_width, face_height, image_width, image_height):
         face_center_x = face_x + face_width // 2
@@ -29,7 +27,7 @@ class SmartCropper:
 
     def _process_and_save_image(self, image_path, process_func):
         image = cv2.imread(image_path)
-        faces = list(self.detector.get_face_coordinate(image_path))
+        faces = list(self.face_detector.get_face_coordinate(image_path))
 
         for idx, face in enumerate(faces):
             processed_image = process_func(image, face)
@@ -66,14 +64,6 @@ class SmartCropper:
             return image[crop_y : crop_y + crop_height, crop_x : crop_x + crop_width]
         else:
             return image  # return original image if no face detected
-
-    def head_image_process(self, image, head):
-        x, y, x2, y2 = head
-        image_height, image_width = image.shape[:2]
-        left, top, width, height = self.calculate_crop_coordinates(
-            x, y, x2 - x, y2 - y, image_width, image_height
-        )
-        return image[top: top + height, left: left + width]
 
     def load_all_images(self):
         self.image_files = []

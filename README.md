@@ -117,11 +117,15 @@
         # 修改裁剪图片目标的存放路径及保持路径，默认修改src/output下的文件并存储为“原名_smartcrop_数字.png”在同一路径下，如需不同路径请先生成对应路径
         "SMART_CROP_INPUT_DIR": "./src/rm_bg_output/",
         "SMART_CROP_OUTPUT_DIR": "./src/smart_crop_output/",
+        # 模型地址，不用改变
+        "HF_REPO_ID": "inupedia/anime-character-image-preprocessing",
+        "HF_MODEL_DIR": "./module/model/",
     }
    ```
 2. 运行`main.py`：
    ```bash
-   python main.py --smart-crop
+   python main.py --smart-crop auto # 推荐，可调整scale factor参数例如--smart-crop auto 1.5
+   python main.py --smart-crop auto-fast #基于lbpcascade_animeface.xml自动裁剪，速度快，但可能会漏掉一些人物
    ```
 
 ### 图片标签
@@ -139,11 +143,11 @@
 2. 下载[wd-v1-4-convnextv2-tagger-v2模型](https://huggingface.co/SmilingWolf/wd-v1-4-convnextv2-tagger-v2/blob/main/model.onnx)和[selected_tags](https://huggingface.co/SmilingWolf/wd-v1-4-convnextv2-tagger-v2/blob/main/selected_tags.csv)至`module/image_tagger/model`文件夹中
 3. 运行`main.py`：
    ```bash
-   python main.py --tagger
+   python main.py --tag
    ```
 
 ### 图片放大
-进行中
+发出了鸽子般的笑声
 
 ### 图片命名
 1. 修改`config.py`中以下配置，格式如下：
@@ -208,7 +212,7 @@
    ```
 
 ## 后续更新（如果有需求🤣）
-- [ ] 无损放大图片
+- [ ] 无损放大图片（感觉没啥用，鸽了！）
   
 ## 参考项目
 - [PixivCrawler](https://github.com/CWHer/PixivCrawler)

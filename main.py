@@ -23,14 +23,6 @@ def smart_crop_handler(args):
         ImageCropper("smart-crop").create_cropper().crop_and_save_all(
             process_func=SmartCropper().smart_image_process_fast
         )
-    elif method == "face-only":
-        ImageCropper("smart-crop").create_cropper().crop_and_save_all(
-            process_func=SmartCropper().face_image_process
-        )
-    elif method == "head-only":
-        ImageCropper("smart-crop").create_cropper().crop_and_save_all(
-            process_func=SmartCropper().head_image_process
-        )
     else:
         print(f"Unknown smart-crop method: {method}")
 
