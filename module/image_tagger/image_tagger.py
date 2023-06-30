@@ -8,6 +8,7 @@ from onnxruntime import InferenceSession
 from typing import Mapping, Tuple, Dict
 from tqdm import tqdm
 from ..config import IMAGE_CONFIG
+from ..hf_downloader import HFDownloader
 import os
 
 
@@ -36,6 +37,13 @@ class ImageTagger:
     def _init(self) -> None:
         if self.__initialized:
             return
+
+        if not os.path.exists(self.__model_path):
+            HFDownloader().download_model(self.__model_path.split("/")[-1])
+
+        if not os.path.exists(self.__tags_path):
+            HFDownloader().download_model(self.__tags_path.split("/")[-1])
+
         self._model = InferenceSession(str(self.__model_path))
         self._tags = pd.read_csv(self.__tags_path)
         self.__initialized = True
