@@ -17,7 +17,6 @@ class FaceDetector:
         self.max_infer_size = max_infer_size
         self.conf_threshold = conf_threshold
         self.iou_threshold = iou_threshold
-        self.hf_downloader = HFDownloader()
 
     @lru_cache()
     def _open_face_detect_model(self):
