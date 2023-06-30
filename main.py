@@ -13,9 +13,17 @@ ACTIONS = {
     "--remove-bg": lambda _: ImageProcessor(
         model_name=IMAGE_CONFIG["REMBG_MODEL"]
     ).process_images(),
-    "--smart-crop": lambda _: ImageCropper("smart-crop")
-    .create_cropper()
-    .crop_and_save_all(),
+    "--smart-crop": {
+        "face-only": lambda _: ImageCropper("smart-crop")
+        .create_cropper()
+        .crop_and_save_all(process_func=SmartCropper().face_image_process),
+        "auto": lambda _: ImageCropper("smart-crop")
+        .create_cropper()
+        .crop_and_save_all(process_func=SmartCropper().smart_image_process),
+        "auto-fast": lambda _: ImageCropper("smart-crop")
+        .create_cropper()
+        .crop_and_save_all(process_func=SmartCropper().smart_image_process_fast),
+    },
     "--tag": lambda _: ImageTagger().process_directory(),
 }
 
@@ -27,8 +35,14 @@ if __name__ == "__main__":
         if arg in ACTIONS:
             if arg in ["--pixiv-user", "--pixiv-keyword"]:
                 keyword_or_id = args.pop(0) if args else None
+            elif arg == "--smart-crop":
+                method = args.pop(0) if args else None
+                keyword_or_id = None
             else:
                 keyword_or_id = None
-            ACTIONS[arg](keyword_or_id)
+            if arg == "--smart-crop" and method:
+                ACTIONS[arg][method](keyword_or_id)
+            else:
+                ACTIONS[arg](keyword_or_id)
         else:
             print(f"Unknown argument: {arg}")

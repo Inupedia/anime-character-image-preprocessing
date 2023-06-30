@@ -214,6 +214,8 @@
 - [PixivCrawler](https://github.com/CWHer/PixivCrawler)
 - [rembg](https://github.com/danielgatis/rembg)
 - [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)
+- [anime_object_detection](https://huggingface.co/spaces/deepghs/anime_object_detection)
+- [wd-v1-4-convnextv2-tagger-v2](https://huggingface.co/SmilingWolf/wd-v1-4-convnextv2-tagger-v2)
 
 ## 许可证
 [MIT License](https://github.com/Inupedia/sd-character-image-preprocessing/blob/main/LICENSE)

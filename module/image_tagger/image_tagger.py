@@ -14,15 +14,14 @@ import os
 class ImageTagger:
     def __init__(
         self,
-        model_path="./model/model.onnx",
-        tags_path="./model/selected_tags.csv",
+        model_path="./module/model/model.onnx",
+        tags_path="./module/model/selected_tags.csv",
         image_directory="./src/input",
         image_files=None,
     ) -> None:
-        base_path = os.path.dirname(os.path.abspath(__file__))
         self.image_directory = IMAGE_CONFIG["IMAGE_TAGGER_INPUT_DIR"]
-        self.__model_path = os.path.join(base_path, model_path)
-        self.__tags_path = os.path.join(base_path, tags_path)
+        self.__model_path = model_path
+        self.__tags_path = tags_path
         self.__initialized = False
         self._model, self._tags = None, None
         if image_files is None:
