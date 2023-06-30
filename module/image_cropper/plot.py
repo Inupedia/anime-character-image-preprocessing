@@ -7,7 +7,7 @@ Overview:
 from typing import List, Tuple, Optional
 
 from PIL import ImageFont, ImageDraw
-from hbutils.color import rnd_colors, Color
+from hbutils.color import rnd_colors
 from imgutils.data import ImageTyping, load_image
 
 

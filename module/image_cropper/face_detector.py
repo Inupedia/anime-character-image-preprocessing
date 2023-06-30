@@ -4,6 +4,7 @@ import onnxruntime
 from imgutils.data import load_image, rgb_encode
 import os
 
+from ..hf_downloader import HFDownloader
 from .yolo_ import _image_preprocess, _data_postprocess
 from .plot import detection_visualize
 
@@ -16,18 +17,20 @@ class FaceDetector:
         self.max_infer_size = max_infer_size
         self.conf_threshold = conf_threshold
         self.iou_threshold = iou_threshold
+        self.hf_downloader = HFDownloader()
 
     @lru_cache()
-    def _open_face_detect_model(self, model_name: str):
-        # base_path = os.path.dirname(os.path.abspath(__file__))
-        # model_path = os.path.join(base_path, f'./model/{model_name}.onnx')
-        return onnxruntime.InferenceSession(f'./module/model/{model_name}.onnx')
+    def _open_face_detect_model(self):
+        model_path = f'./module/model/{self._FACE_MODELS[0]}.onnx'
+        if not os.path.exists(model_path):
+            HFDownloader().download_model(f'{self._FACE_MODELS[0]}.onnx')
+        return onnxruntime.InferenceSession(model_path)
 
     def detect_faces(self, image_path: str, model_name: str) -> List[Tuple[Tuple[int, int, int, int], str, float]]:
         image = load_image(image_path, mode='RGB')
         new_image, old_size, new_size = _image_preprocess(image, self.max_infer_size)
         data = rgb_encode(new_image)[None, ...]
-        output, = self._open_face_detect_model(model_name).run(['output0'], {'images': data})
+        output, = self._open_face_detect_model().run(['output0'], {'images': data})
         return _data_postprocess(output[0], self.conf_threshold, self.iou_threshold, old_size, new_size, self._LABELS)
 
     def get_face_coordinate(self, image_path: str, model_name: str = _DEFAULT_FACE_MODEL):
