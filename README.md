@@ -89,7 +89,7 @@
 3. 将需要处理的图片放入`src/input`文件夹中
 4. 运行`main.py`：
    ```bash
-   python main.py -remove-bg
+   python main.py --remove-bg
    ```
 
 ### 边缘裁剪
