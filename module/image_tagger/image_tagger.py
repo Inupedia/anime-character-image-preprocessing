@@ -28,7 +28,7 @@ class ImageTagger:
         if image_files is None:
             self.image_files = [
                 filename
-                for filename in os.listdir(image_directory)
+                for filename in os.listdir(self.image_directory)
                 if filename.endswith((".jpg", ".png", ".jpeg"))
             ]
         else:
