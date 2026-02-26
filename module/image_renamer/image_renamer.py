@@ -1,39 +1,44 @@
+import logging
 import os
+from typing import List
+
 from PIL import Image
+
 from ..config import IMAGE_CONFIG
+
+logger = logging.getLogger(__name__)
 
 
 class ImageRenamer:
-    def __init__(self, folder_path="./src/input"):
+    def __init__(self, folder_path: str = "./src/input"):
         self.folder_path = folder_path
-        self.image_files = self.get_image_files()
+        self.image_files: List[str] = self._get_image_files()
 
-    def get_image_files(self):
-        files = os.listdir(self.folder_path)
-        image_files = []
-
-        for file in files:
-            file_path = os.path.join(self.folder_path, file)
+    def _get_image_files(self) -> List[str]:
+        image_files: List[str] = []
+        for filename in sorted(os.listdir(self.folder_path)):
+            filepath = os.path.join(self.folder_path, filename)
+            if not os.path.isfile(filepath):
+                continue
             try:
-                # Try to open the file with PIL
-                img = Image.open(file_path)
-                img.verify()  # Verify that it is, in fact an image
-                image_files.append(file)
-            except (IOError, SyntaxError) as e:
-                # It's not an image file, so ignore it
+                with Image.open(filepath) as img:
+                    img.verify()
+                image_files.append(filename)
+            except (IOError, SyntaxError):
                 pass
-
-        image_files.sort()
         return image_files
 
-    def rename_files(self):
-        for idx, filename in enumerate(self.image_files, start=1):
-            basename, ext = os.path.splitext(filename)
-            image_prefix = IMAGE_CONFIG["IMAGE_PREFIX"]
-            new_name = f"{image_prefix}_{idx - 1}{ext}"
-            old_file_path = os.path.join(self.folder_path, filename)
-            new_file_path = os.path.join(self.folder_path, new_name)
-            os.rename(old_file_path, new_file_path)
+    def rename_files(self) -> None:
+        prefix = IMAGE_CONFIG.IMAGE_PREFIX
+        for idx, filename in enumerate(self.image_files):
+            _, ext = os.path.splitext(filename)
+            new_name = f"{prefix}_{idx}{ext}"
+            old_path = os.path.join(self.folder_path, filename)
+            new_path = os.path.join(self.folder_path, new_name)
+            if old_path != new_path:
+                os.rename(old_path, new_path)
+                logger.debug("Renamed %s → %s", filename, new_name)
 
-    def run(self):
+    def run(self) -> None:
         self.rename_files()
+        logger.info("Renamed %d files with prefix '%s'", len(self.image_files), IMAGE_CONFIG.IMAGE_PREFIX)

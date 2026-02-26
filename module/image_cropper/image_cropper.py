@@ -1,15 +1,27 @@
-from .boundary_cropper import BoundaryCropper
-from .smart_cropper import SmartCropper
+"""Cropper factory and abstract base."""
+
+from abc import ABC, abstractmethod
+
+
+class BaseCropper(ABC):
+    """Common interface for all cropper implementations."""
+
+    @abstractmethod
+    def crop_and_save_all(self, **kwargs) -> None:
+        """Process all images and save cropped results."""
 
 
 class ImageCropper:
-    def __init__(self, cropper_type):
-        self.cropper_type = cropper_type
+    """Factory that creates the appropriate cropper."""
 
-    def create_cropper(self):
-        if self.cropper_type == "boundary-crop":
+    @staticmethod
+    def create(cropper_type: str, **kwargs) -> BaseCropper:
+        from .boundary_cropper import BoundaryCropper
+        from .smart_cropper import SmartCropper
+
+        if cropper_type == "boundary-crop":
             return BoundaryCropper()
-        elif self.cropper_type == "smart-crop":
-            return SmartCropper()
+        elif cropper_type == "smart-crop":
+            return SmartCropper(**kwargs)
         else:
-            raise ValueError("Invalid cropper type")
+            raise ValueError(f"Invalid cropper type: {cropper_type}")

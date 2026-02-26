@@ -1,46 +1,34 @@
 import concurrent.futures as futures
+import logging
+import urllib.parse as urlparse
 from typing import Set
+
+from tqdm import tqdm
 
 from ..collector.collector import Collector
 from ..collector.collector_unit import collect
 from ..collector.selectors import selectKeyword
 from ...config import DOWNLOAD_CONFIG, USER_CONFIG, IMAGE_CONFIG
 from ..downloader.downloader import Downloader
-from tqdm import tqdm
-from ..utils import printInfo
-import urllib.parse as urlparse
+
+logger = logging.getLogger(__name__)
 
 
 class KeywordCrawler:
-    """[summary]
-    download search results of a keyword
-    """
+    """Download Pixiv search results for a keyword."""
 
-    def __init__(
-        self,
-        keyword: str,
-        capacity=1024,
-    ):
+    def __init__(self, keyword: str, capacity: int = 1024):
         self.keyword = keyword
-        self.order = IMAGE_CONFIG["KEYWORD_ORDER"]
-        self.mode = IMAGE_CONFIG["KEYWORD_MODE"]
-        self.n_page = IMAGE_CONFIG["KEYWORD_N_PAGES"]
+        self.order = IMAGE_CONFIG.KEYWORD_ORDER
+        self.mode = IMAGE_CONFIG.KEYWORD_MODE
+        self.n_page = IMAGE_CONFIG.KEYWORD_N_PAGES
         self.downloader = Downloader(capacity)
         self.collector = Collector(self.downloader)
 
-    def collect(self):
-        """[summary]
-        collect illust_id from keyword result
-        url sample: "https://www.pixiv.net/ajax/search/artworks/{xxxxx}?
-            word={xxxxx}&order=popular_d&mode=all&p=1&s_mode=s_tag_full&type=all&lang=zh"
-        """
+    def collect(self) -> None:
+        logger.info("Start collecting keyword: %s", self.keyword)
 
-        # NOTE: each keyword.json contains 60 artworks
-
-        printInfo(f"===== start collecting {self.keyword} =====")
-
-        urls: Set[str] = set()
-        url = (
+        url_template = (
             "https://www.pixiv.net/ajax/search/artworks/"
             + "{}?word={}".format(
                 urlparse.quote(self.keyword, safe="()"), urlparse.quote(self.keyword)
@@ -49,13 +37,12 @@ class KeywordCrawler:
             + f"&mode={self.mode}"
             + "&p={}&s_mode=s_tag&type=all&lang=zh"
         )
-        for i in range(self.n_page):
-            urls.add(url.format(i + 1))
+        urls: Set[str] = {url_template.format(i + 1) for i in range(self.n_page)}
 
-        n_thread = DOWNLOAD_CONFIG["N_THREAD"]
+        n_thread = DOWNLOAD_CONFIG.N_THREAD
         with futures.ThreadPoolExecutor(n_thread) as executor:
             with tqdm(total=len(urls), desc="collecting ids") as pbar:
-                additional_headers = {"COOKIE": USER_CONFIG["COOKIE"]}
+                additional_headers = {"Cookie": USER_CONFIG.COOKIE}
                 for image_ids in executor.map(
                     collect,
                     zip(
@@ -68,10 +55,10 @@ class KeywordCrawler:
                         self.collector.add(image_ids)
                     pbar.update()
 
-        printInfo(f"===== collect {self.keyword} complete =====")
-        printInfo(f"downloadable artworks: {len(self.collector.id_group)}")
+        logger.info("Collection complete for keyword: %s", self.keyword)
+        logger.info("Downloadable artworks: %d", len(self.collector.id_group))
 
-    def run(self):
+    def run(self) -> float:
         self.collect()
         self.collector.collect()
         return self.downloader.download()
