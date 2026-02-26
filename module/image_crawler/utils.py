@@ -1,52 +1,46 @@
+import logging
 import os
 from functools import wraps
 from threading import Lock
+from typing import Callable
 
-
-# >>> log utils
-# output mutex lock
 log_lock = Lock()
+logger = logging.getLogger(__name__)
 
 
-def writeFailLog(text: str):
-    """[summary]
-    append text in fail_log.txt
-    """
+def writeFailLog(text: str) -> None:
     with log_lock:
         with open("fail_log.txt", "a+") as f:
             f.write(text)
 
 
-def timeLog(func):
+def timeLog(func: Callable) -> Callable:
     @wraps(func)
     def clocked(*args, **kwargs):
         from time import time
         start_time = time()
         ret = func(*args, **kwargs)
-        print("{}() finishes after {:.2f} s".format(
-            func.__name__, time() - start_time))
+        logger.info("%s() finished in %.2f s", func.__name__, time() - start_time)
         return ret
     return clocked
 
 
-def printInfo(msg):
-    print("[INFO]: {}".format(msg))
+def printInfo(msg: str) -> None:
+    logger.info(msg)
 
 
-def printWarn(expr: bool, msg):
+def printWarn(expr: bool, msg: object) -> None:
     if expr:
-        print("[WARN]: {}".format(msg))
+        logger.warning(str(msg))
 
 
-def printError(expr: bool, msg):
+def printError(expr: bool, msg: str) -> None:
     if expr:
-        print("[ERROR]: {}".format(msg))
-        raise RuntimeError()
-
-# <<< log utils
+        logger.error(msg)
+        raise RuntimeError(msg)
 
 
-def checkDir(dir_path):
+def checkDir(dir_path: str) -> None:
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
-        printInfo(f"create {dir_path}")
+        logger.info("Created directory: %s", dir_path)

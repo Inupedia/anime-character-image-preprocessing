@@ -1,0 +1,121 @@
+"""Command-line interface for the image preprocessing tool."""
+
+import argparse
+import logging
+import sys
+
+from .config import IMAGE_CONFIG
+from .image_processor import ImageProcessor
+from .image_renamer import ImageRenamer
+from .image_crawler import ImageCrawler
+from .image_cropper import ImageCropper, SmartCropper
+from .image_tagger import ImageTagger
+
+
+def setup_logging(verbose: bool = False) -> None:
+    level = logging.DEBUG if verbose else logging.INFO
+    logging.basicConfig(
+        level=level,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="sd-preprocess",
+        description="Anime character image preprocessing tool for Stable Diffusion training datasets.",
+    )
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Enable verbose output.",
+    )
+
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    subparsers.add_parser("rename", help="Rename images with a sequential prefix.")
+
+    subparsers.add_parser("remove-bg", help="Remove image backgrounds using rembg.")
+
+    subparsers.add_parser("boundary-crop", help="Crop images to character boundaries.")
+
+    smart_crop_parser = subparsers.add_parser("smart-crop", help="Smart crop images around detected faces.")
+    smart_crop_parser.add_argument(
+        "method",
+        choices=["auto", "auto-fast"],
+        help="'auto' uses YOLO face detection; 'auto-fast' uses OpenCV cascade classifier.",
+    )
+    smart_crop_parser.add_argument(
+        "scale",
+        type=float,
+        nargs="?",
+        default=1.0,
+        help="Scale factor for crop area (default: 1.0).",
+    )
+
+    subparsers.add_parser("tag", help="Generate tags for images using ONNX tagger model.")
+
+    pixiv_user_parser = subparsers.add_parser("pixiv-user", help="Download all artworks from a Pixiv artist.")
+    pixiv_user_parser.add_argument("artist_id", help="Pixiv artist ID.")
+
+    pixiv_keyword_parser = subparsers.add_parser("pixiv-keyword", help="Download artworks by keyword search.")
+    pixiv_keyword_parser.add_argument("keyword", help="Search keyword.")
+
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+
+    if args.command is None:
+        parser.print_help()
+        return 1
+
+    setup_logging(args.verbose)
+    logger = logging.getLogger(__name__)
+
+    try:
+        match args.command:
+            case "rename":
+                ImageRenamer().run()
+
+            case "remove-bg":
+                ImageProcessor(model_name=IMAGE_CONFIG["REMBG_MODEL"]).process_images()
+
+            case "boundary-crop":
+                ImageCropper("boundary-crop").create_cropper().crop_and_save_all()
+
+            case "smart-crop":
+                cropper = ImageCropper("smart-crop").create_cropper()
+                if args.method == "auto":
+                    cropper.crop_and_save_all(
+                        process_func=SmartCropper(scale=args.scale).smart_image_process
+                    )
+                elif args.method == "auto-fast":
+                    cropper.crop_and_save_all(
+                        process_func=SmartCropper().smart_image_process_fast
+                    )
+
+            case "tag":
+                ImageTagger().process_directory()
+
+            case "pixiv-user":
+                ImageCrawler("User", args.artist_id).run()
+
+            case "pixiv-keyword":
+                ImageCrawler("Keyword", args.keyword).run()
+
+    except KeyboardInterrupt:
+        logger.info("Interrupted by user.")
+        return 130
+    except Exception:
+        logger.exception("An error occurred")
+        return 1
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

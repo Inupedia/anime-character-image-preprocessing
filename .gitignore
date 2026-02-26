@@ -8,6 +8,11 @@ venv/
 # Ignore Python byte code cache directories
 __pycache__/
 
+# Ignore build/packaging artifacts
+*.egg-info/
+dist/
+build/
+
 # Ignore .DS_Store files
 .DS_Store
 
