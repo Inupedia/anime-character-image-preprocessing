@@ -3,39 +3,47 @@
 ## Cursor Cloud specific instructions
 
 ### Overview
-This is a Python CLI tool for anime character image preprocessing (background removal, cropping, tagging, renaming). It is **not** a web app or service — it is invoked via `python main.py` with various flags.
+Python CLI tool for anime character image preprocessing (background removal, cropping, tagging, renaming). Not a web app — invoked via `python main.py <command>`.
 
 ### Python version
-The project requires **Python 3.11** (pinned `torch==2.0.1` is incompatible with Python 3.12+). A virtualenv at `/workspace/venv` is created with Python 3.11 from the `deadsnakes` PPA.
+Requires **Python 3.11** (via deadsnakes PPA). A virtualenv lives at `/workspace/venv`.
 
 ### Activating the environment
 ```bash
 source /workspace/venv/bin/activate
 ```
 
-### Configuration
-`module/config.py` must exist (copied from `module/config_temp.py`). The update script handles this automatically.
+### CLI usage
+The tool supports two styles. See `python main.py --help` for the new argparse-based interface.
 
-### Running the tool
-See the README for all flags. Common examples:
+**New subcommand style** (preferred):
 ```bash
-python main.py --rename
-python main.py --remove-bg
-python main.py --boundary-crop
-python main.py --smart-crop auto
-python main.py --tag
-python main.py --rename --remove-bg --boundary-crop   # mixed/chained
+python main.py rename
+python main.py remove-bg
+python main.py boundary-crop
+python main.py smart-crop auto [scale]
+python main.py tag
+python main.py pixiv-user <artist_id>
+python main.py pixiv-keyword <keyword>
 ```
 
+**Legacy flag style** (backward compatible, supports chaining):
+```bash
+python main.py --rename --remove-bg --boundary-crop
+```
+
+### Configuration
+`module/config.py` must exist (copied from `module/config_temp.py`). It is gitignored. The update script creates it automatically if missing.
+
 ### I/O directories
-- Input images go in `src/input/`
-- Background removal output: `src/rm_bg_output/`
-- Boundary crop output: `src/boundary_crop_output/`
-- Smart crop output: `src/smart_crop_output/`
+- Input: `src/input/` — sample images available in `assets/`
+- Background removal: `src/rm_bg_output/`
+- Boundary crop: `src/boundary_crop_output/`
+- Smart crop: `src/smart_crop_output/`
 
 ### Gotchas
-- The first run of `--remove-bg` downloads a ~176 MB ONNX model to `~/.u2net/`. Similarly, `--smart-crop` and `--tag` download models on first use.
-- The Pixiv crawler (`--pixiv-user`, `--pixiv-keyword`) requires valid Pixiv credentials in `module/config.py` and network/proxy access — skip these for local testing.
-- The image scaler module (Real-ESRGAN) is disabled (commented out in `module/__init__.py`).
-- No automated test suite exists in this repo; validation is done by running CLI commands against sample images.
-- Sample images are available in `assets/` and can be copied to `src/input/` for testing.
+- First run of `remove-bg` downloads ~176 MB U-2-Net ONNX model to `~/.u2net/`. `smart-crop` and `tag` also download models on first use.
+- Pixiv crawler features require valid credentials in `module/config.py` and network access — skip for local testing.
+- Image scaler module (Real-ESRGAN) is disabled (placeholder in `module/image_scaler/`).
+- No automated test suite; validation is by running CLI commands against sample images.
+- `dghs-imgutils` metadata says `numpy<2` but works fine with numpy 2.x in practice.
