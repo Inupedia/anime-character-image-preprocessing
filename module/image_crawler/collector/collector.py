@@ -29,7 +29,7 @@ class Collector:
     def collect(self) -> None:
         logger.info("Collector starting with %d artwork IDs", len(self.id_group))
 
-        n_thread = DOWNLOAD_CONFIG["N_THREAD"]
+        n_thread = DOWNLOAD_CONFIG.N_THREAD
         with futures.ThreadPoolExecutor(n_thread) as executor:
             with tqdm(total=len(self.id_group), desc="collecting urls") as pbar:
                 page_urls = [
@@ -39,7 +39,7 @@ class Collector:
                 additional_headers = [
                     {
                         "Referer": f"https://www.pixiv.net/artworks/{illust_id}",
-                        "x-user-id": USER_CONFIG["USER_ID"],
+                        "x-user-id": USER_CONFIG.USER_ID,
                     }
                     for illust_id in self.id_group
                 ]

@@ -25,7 +25,7 @@ class ImageTagger:
         tags_path: str = "./module/model/selected_tags.csv",
         image_files: Optional[List[str]] = None,
     ) -> None:
-        self.image_directory: str = IMAGE_CONFIG["IMAGE_TAGGER_INPUT_DIR"]
+        self.image_directory: str = IMAGE_CONFIG.IMAGE_TAGGER_INPUT_DIR
         self._model_path = model_path
         self._tags_path = tags_path
         self._initialized = False
@@ -134,7 +134,7 @@ class ImageTagger:
 
     def process_directory(
         self,
-        confidence: float = IMAGE_CONFIG["IMAGE_TAGGER_CONFIDENCE"],
+        confidence: float = IMAGE_CONFIG.IMAGE_TAGGER_CONFIDENCE,
         use_spaces: bool = True,
         use_escape: bool = True,
         include_ranks: bool = False,

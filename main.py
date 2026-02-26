@@ -6,99 +6,62 @@ legacy ``--flag`` style (``python main.py --rename``) for backward compatibility
 
 import sys
 
-from module.cli import main
+from module.cli import main, run_command, setup_logging
+
+_FLAG_MAP = {
+    "--rename": "rename",
+    "--remove-bg": "remove-bg",
+    "--boundary-crop": "boundary-crop",
+    "--smart-crop": "smart-crop",
+    "--tag": "tag",
+    "--pixiv-user": "pixiv-user",
+    "--pixiv-keyword": "pixiv-keyword",
+}
 
 
 def _translate_legacy_args(argv: list[str]) -> list[str]:
-    """Convert legacy ``--flag`` style arguments to subcommand style.
-
-    Examples:
-        ["--rename"]                   → ["rename"]
-        ["--remove-bg"]                → ["remove-bg"]
-        ["--smart-crop", "auto", "1.5"] → ["smart-crop", "auto", "1.5"]
-        ["--pixiv-user", "12345"]      → ["pixiv-user", "12345"]
-        ["--rename", "--remove-bg"]    → not translated (multi-command)
-    """
-    flag_map = {
-        "--rename": "rename",
-        "--remove-bg": "remove-bg",
-        "--boundary-crop": "boundary-crop",
-        "--smart-crop": "smart-crop",
-        "--tag": "tag",
-        "--pixiv-user": "pixiv-user",
-        "--pixiv-keyword": "pixiv-keyword",
-    }
-
+    """Convert single legacy ``--flag`` to subcommand style."""
     if not argv:
         return argv
-
-    flags_found = [a for a in argv if a in flag_map]
+    flags_found = [a for a in argv if a in _FLAG_MAP]
     if len(flags_found) != 1:
         return argv
+    return [_FLAG_MAP.get(a, a) for a in argv]
 
-    result = []
-    for arg in argv:
-        if arg in flag_map:
-            result.append(flag_map[arg])
-        else:
-            result.append(arg)
-    return result
+
+def _run_chained_legacy(argv: list[str]) -> None:
+    """Execute multiple legacy ``--flag`` commands in sequence."""
+    setup_logging()
+    args = argv[:]
+    while args:
+        flag = args.pop(0)
+        cmd = _FLAG_MAP.get(flag)
+        if cmd is None:
+            print(f"Unknown argument: {flag}")
+            continue
+
+        kwargs = {}
+        if cmd == "smart-crop":
+            kwargs["method"] = args.pop(0) if args else "auto"
+            if args and not args[0].startswith("--"):
+                kwargs["scale"] = float(args.pop(0))
+            else:
+                kwargs["scale"] = 1.0
+        elif cmd in ("pixiv-user", "pixiv-keyword"):
+            value = args.pop(0) if args else None
+            if not value:
+                continue
+            key = "artist_id" if cmd == "pixiv-user" else "keyword"
+            kwargs[key] = value
+
+        run_command(cmd, **kwargs)
 
 
 if __name__ == "__main__":
     argv = sys.argv[1:]
-
-    flags_in_argv = [a for a in argv if a.startswith("--") and a in {
-        "--rename", "--remove-bg", "--boundary-crop",
-        "--smart-crop", "--tag", "--pixiv-user", "--pixiv-keyword",
-    }]
+    flags_in_argv = [a for a in argv if a in _FLAG_MAP]
 
     if len(flags_in_argv) > 1:
-        import logging
-        logging.basicConfig(
-            level=logging.INFO,
-            format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S",
-        )
-        from module.config import IMAGE_CONFIG
-        from module.image_processor import ImageProcessor
-        from module.image_renamer import ImageRenamer
-        from module.image_cropper import ImageCropper, SmartCropper
-        from module.image_tagger import ImageTagger
-        from module.image_crawler import ImageCrawler
-
-        args = argv[:]
-        while args:
-            arg = args.pop(0)
-            if arg == "--rename":
-                ImageRenamer().run()
-            elif arg == "--remove-bg":
-                ImageProcessor(model_name=IMAGE_CONFIG["REMBG_MODEL"]).process_images()
-            elif arg == "--boundary-crop":
-                ImageCropper("boundary-crop").create_cropper().crop_and_save_all()
-            elif arg == "--smart-crop":
-                method = args.pop(0) if args else None
-                scale = float(args.pop(0)) if args and not args[0].startswith("--") else 1.0
-                if method == "auto":
-                    ImageCropper("smart-crop").create_cropper().crop_and_save_all(
-                        process_func=SmartCropper(scale=scale).smart_image_process
-                    )
-                elif method == "auto-fast":
-                    ImageCropper("smart-crop").create_cropper().crop_and_save_all(
-                        process_func=SmartCropper().smart_image_process_fast
-                    )
-            elif arg == "--tag":
-                ImageTagger().process_directory()
-            elif arg == "--pixiv-user":
-                artist_id = args.pop(0) if args else None
-                if artist_id:
-                    ImageCrawler("User", artist_id).run()
-            elif arg == "--pixiv-keyword":
-                keyword = args.pop(0) if args else None
-                if keyword:
-                    ImageCrawler("Keyword", keyword).run()
-            else:
-                print(f"Unknown argument: {arg}")
+        _run_chained_legacy(argv)
     else:
-        translated = _translate_legacy_args(argv)
-        sys.exit(main(translated))
+        sys.exit(main(_translate_legacy_args(argv)))

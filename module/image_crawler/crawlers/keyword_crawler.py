@@ -19,9 +19,9 @@ class KeywordCrawler:
 
     def __init__(self, keyword: str, capacity: int = 1024):
         self.keyword = keyword
-        self.order = IMAGE_CONFIG["KEYWORD_ORDER"]
-        self.mode = IMAGE_CONFIG["KEYWORD_MODE"]
-        self.n_page = IMAGE_CONFIG["KEYWORD_N_PAGES"]
+        self.order = IMAGE_CONFIG.KEYWORD_ORDER
+        self.mode = IMAGE_CONFIG.KEYWORD_MODE
+        self.n_page = IMAGE_CONFIG.KEYWORD_N_PAGES
         self.downloader = Downloader(capacity)
         self.collector = Collector(self.downloader)
 
@@ -39,10 +39,10 @@ class KeywordCrawler:
         )
         urls: Set[str] = {url_template.format(i + 1) for i in range(self.n_page)}
 
-        n_thread = DOWNLOAD_CONFIG["N_THREAD"]
+        n_thread = DOWNLOAD_CONFIG.N_THREAD
         with futures.ThreadPoolExecutor(n_thread) as executor:
             with tqdm(total=len(urls), desc="collecting ids") as pbar:
-                additional_headers = {"Cookie": USER_CONFIG["COOKIE"]}
+                additional_headers = {"Cookie": USER_CONFIG.COOKIE}
                 for image_ids in executor.map(
                     collect,
                     zip(

@@ -8,15 +8,16 @@ from PIL import Image
 from tqdm import tqdm
 
 from ..config import IMAGE_CONFIG
-from ..image_processor.image_processor import list_image_files
+from ..utils import list_image_files
+from .image_cropper import BaseCropper
 
 logger = logging.getLogger(__name__)
 
 
-class BoundaryCropper:
+class BoundaryCropper(BaseCropper):
     def __init__(self):
-        self.image_directory = IMAGE_CONFIG["BOUNDARY_CROP_INPUT_DIR"]
-        self.save_directory = IMAGE_CONFIG["BOUNDARY_CROP_OUTPUT_DIR"]
+        self.image_directory = IMAGE_CONFIG.BOUNDARY_CROP_INPUT_DIR
+        self.save_directory = IMAGE_CONFIG.BOUNDARY_CROP_OUTPUT_DIR
         os.makedirs(self.save_directory, exist_ok=True)
         self.image_files: List[str] = list_image_files(self.image_directory)
 

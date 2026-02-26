@@ -3,6 +3,7 @@
 import argparse
 import logging
 import sys
+from typing import List, Optional
 
 from .config import IMAGE_CONFIG
 from .image_processor import ImageProcessor
@@ -65,7 +66,47 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
+def run_command(command: str, **kwargs) -> None:
+    """Execute a single command by name."""
+    logger = logging.getLogger(__name__)
+
+    match command:
+        case "rename":
+            ImageRenamer().run()
+
+        case "remove-bg":
+            ImageProcessor(model_name=IMAGE_CONFIG.REMBG_MODEL).process_images()
+
+        case "boundary-crop":
+            ImageCropper.create("boundary-crop").crop_and_save_all()
+
+        case "smart-crop":
+            method = kwargs.get("method", "auto")
+            scale = kwargs.get("scale", 1.0)
+            cropper = ImageCropper.create("smart-crop")
+            if method == "auto":
+                cropper.crop_and_save_all(
+                    process_func=SmartCropper(scale=scale).smart_image_process
+                )
+            elif method == "auto-fast":
+                cropper.crop_and_save_all(
+                    process_func=SmartCropper().smart_image_process_fast
+                )
+
+        case "tag":
+            ImageTagger().process_directory()
+
+        case "pixiv-user":
+            ImageCrawler("User", kwargs["artist_id"]).run()
+
+        case "pixiv-keyword":
+            ImageCrawler("Keyword", kwargs["keyword"]).run()
+
+        case _:
+            logger.error("Unknown command: %s", command)
+
+
+def main(argv: Optional[List[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
@@ -77,36 +118,7 @@ def main(argv: list[str] | None = None) -> int:
     logger = logging.getLogger(__name__)
 
     try:
-        match args.command:
-            case "rename":
-                ImageRenamer().run()
-
-            case "remove-bg":
-                ImageProcessor(model_name=IMAGE_CONFIG["REMBG_MODEL"]).process_images()
-
-            case "boundary-crop":
-                ImageCropper("boundary-crop").create_cropper().crop_and_save_all()
-
-            case "smart-crop":
-                cropper = ImageCropper("smart-crop").create_cropper()
-                if args.method == "auto":
-                    cropper.crop_and_save_all(
-                        process_func=SmartCropper(scale=args.scale).smart_image_process
-                    )
-                elif args.method == "auto-fast":
-                    cropper.crop_and_save_all(
-                        process_func=SmartCropper().smart_image_process_fast
-                    )
-
-            case "tag":
-                ImageTagger().process_directory()
-
-            case "pixiv-user":
-                ImageCrawler("User", args.artist_id).run()
-
-            case "pixiv-keyword":
-                ImageCrawler("Keyword", args.keyword).run()
-
+        run_command(args.command, **{k: v for k, v in vars(args).items() if k != "command" and k != "verbose"})
     except KeyboardInterrupt:
         logger.info("Interrupted by user.")
         return 130

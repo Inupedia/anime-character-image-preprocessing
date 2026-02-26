@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 class HFDownloader:
     def __init__(
         self,
-        repo_id: str = IMAGE_CONFIG["HF_REPO_ID"],
-        base_dir: str = IMAGE_CONFIG["HF_MODEL_DIR"],
+        repo_id: str = IMAGE_CONFIG.HF_REPO_ID,
+        base_dir: str = IMAGE_CONFIG.HF_MODEL_DIR,
     ):
         self.repo_id = repo_id
         self.base_dir = base_dir

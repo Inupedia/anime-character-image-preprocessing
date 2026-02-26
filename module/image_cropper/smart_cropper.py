@@ -8,13 +8,14 @@ from PIL import Image
 from tqdm import tqdm
 
 from ..config import IMAGE_CONFIG
-from ..image_processor.image_processor import list_image_files
+from ..utils import list_image_files
 from .face_detector import FaceDetector
+from .image_cropper import BaseCropper
 
 logger = logging.getLogger(__name__)
 
 
-class SmartCropper:
+class SmartCropper(BaseCropper):
     def __init__(self, cascade_file: str = "lbpcascade_animeface.xml", scale: float = 1.0):
         cascade_path = os.path.join(os.path.dirname(__file__), cascade_file)
         self.face_cascade = cv2.CascadeClassifier(cascade_path)
@@ -58,7 +59,7 @@ class SmartCropper:
             processed_image = process_func(image, face)
             filename, ext = os.path.splitext(os.path.basename(image_path))
             output_path = os.path.join(
-                IMAGE_CONFIG["SMART_CROP_OUTPUT_DIR"],
+                IMAGE_CONFIG.SMART_CROP_OUTPUT_DIR,
                 f"{filename}_smart_crop_{idx}{ext}",
             )
             cv2.imwrite(output_path, processed_image)
@@ -91,8 +92,8 @@ class SmartCropper:
         return image
 
     def crop_and_save_all(self, process_func: Callable) -> None:
-        image_directory = IMAGE_CONFIG["SMART_CROP_INPUT_DIR"]
-        os.makedirs(IMAGE_CONFIG["SMART_CROP_OUTPUT_DIR"], exist_ok=True)
+        image_directory = IMAGE_CONFIG.SMART_CROP_INPUT_DIR
+        os.makedirs(IMAGE_CONFIG.SMART_CROP_OUTPUT_DIR, exist_ok=True)
         image_files = list_image_files(image_directory)
         for filename in tqdm(image_files, desc="Processing images"):
             self._process_and_save_image(os.path.join(image_directory, filename), process_func)

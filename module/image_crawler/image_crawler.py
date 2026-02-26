@@ -14,7 +14,7 @@ _CRAWLERS = {
 
 class ImageCrawler:
     def __init__(self, crawler_type: str, keyword_or_id: str, capacity: int = 200):
-        checkDir(DOWNLOAD_CONFIG["STORE_PATH"])
+        checkDir(DOWNLOAD_CONFIG.STORE_PATH)
         if crawler_type not in _CRAWLERS:
             raise ValueError(f"Invalid crawler_type: {crawler_type}")
         logger.info("Creating %s crawler for: %s", crawler_type, keyword_or_id)

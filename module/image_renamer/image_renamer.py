@@ -29,7 +29,7 @@ class ImageRenamer:
         return image_files
 
     def rename_files(self) -> None:
-        prefix = IMAGE_CONFIG["IMAGE_PREFIX"]
+        prefix = IMAGE_CONFIG.IMAGE_PREFIX
         for idx, filename in enumerate(self.image_files):
             _, ext = os.path.splitext(filename)
             new_name = f"{prefix}_{idx}{ext}"
@@ -41,4 +41,4 @@ class ImageRenamer:
 
     def run(self) -> None:
         self.rename_files()
-        logger.info("Renamed %d files with prefix '%s'", len(self.image_files), IMAGE_CONFIG["IMAGE_PREFIX"])
+        logger.info("Renamed %d files with prefix '%s'", len(self.image_files), IMAGE_CONFIG.IMAGE_PREFIX)

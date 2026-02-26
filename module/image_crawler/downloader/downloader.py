@@ -26,7 +26,7 @@ class Downloader:
         flow_size = 0.0
         logger.info("Downloader starting with %d URLs", len(self.url_group))
 
-        n_thread = DOWNLOAD_CONFIG["N_THREAD"]
+        n_thread = DOWNLOAD_CONFIG.N_THREAD
         with futures.ThreadPoolExecutor(n_thread) as executor:
             with tqdm(total=len(self.url_group), desc="downloading") as pbar:
                 for image_size in executor.map(self._image_downloader.download_image, self.url_group):

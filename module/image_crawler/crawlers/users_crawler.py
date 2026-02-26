@@ -25,8 +25,8 @@ class UserCrawler:
         url = f"https://www.pixiv.net/ajax/user/{self.artist_id}/profile/all?lang=zh"
         additional_headers = {
             "Referer": f"https://www.pixiv.net/users/{self.artist_id}/illustrations",
-            "x-user-id": USER_CONFIG["USER_ID"],
-            "Cookie": USER_CONFIG["COOKIE"],
+            "x-user-id": USER_CONFIG.USER_ID,
+            "Cookie": USER_CONFIG.COOKIE,
         }
         image_ids = collect((url, selectUser, additional_headers))
         if image_ids is not None:
