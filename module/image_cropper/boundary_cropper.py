@@ -17,6 +17,7 @@ class BoundaryCropper:
     def __init__(self):
         self.image_directory = IMAGE_CONFIG["BOUNDARY_CROP_INPUT_DIR"]
         self.save_directory = IMAGE_CONFIG["BOUNDARY_CROP_OUTPUT_DIR"]
+        os.makedirs(self.save_directory, exist_ok=True)
         self.image_files: List[str] = list_image_files(self.image_directory)
 
     def get_character_bounding_box(self, image: np.ndarray) -> Optional[Tuple[int, int, int, int]]:

@@ -92,6 +92,7 @@ class SmartCropper:
 
     def crop_and_save_all(self, process_func: Callable) -> None:
         image_directory = IMAGE_CONFIG["SMART_CROP_INPUT_DIR"]
+        os.makedirs(IMAGE_CONFIG["SMART_CROP_OUTPUT_DIR"], exist_ok=True)
         image_files = list_image_files(image_directory)
         for filename in tqdm(image_files, desc="Processing images"):
             self._process_and_save_image(os.path.join(image_directory, filename), process_func)

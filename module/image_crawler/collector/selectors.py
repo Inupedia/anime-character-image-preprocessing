@@ -1,42 +1,27 @@
 from typing import Set
+
 from requests.models import Response
 
 
 def selectPage(response: Response) -> Set[str]:
-    """[summary]
-    url: https://www.pixiv.net/ajax/illust/xxxx/pages?lang=zh
-    collect all image urls from (page.json)
+    """Extract all original image URLs from a Pixiv artwork page.
 
-    Returns:
-        Set[str]: urls
+    URL: https://www.pixiv.net/ajax/illust/xxxx/pages?lang=zh
     """
-    group = set()
-    for url in response.json()["body"]:
-        group.add(url["urls"]["original"])
-    return group
+    return {url["urls"]["original"] for url in response.json()["body"]}
 
 
 def selectUser(response: Response) -> Set[str]:
-    """[summary]
-    url: https://www.pixiv.net/ajax/user/23945843/profile/all?lang=zh
-    collect all illust_id (image_id) from (user.json)
+    """Extract all illust IDs from a Pixiv user profile.
 
-    Returns:
-        Set[str]: illust_id (image_id)
+    URL: https://www.pixiv.net/ajax/user/{uid}/profile/all?lang=zh
     """
     return set(response.json()["body"]["illusts"].keys())
 
 
 def selectKeyword(response: Response) -> Set[str]:
-    """[summary]
-    url: https://www.pixiv.net/ajax/search/artworks/{xxxxx}?word={xxxxx}&order=popular_d&mode=all&p=1&s_mode=s_tag_full&type=all&lang=zh"
-    collect all illust_id (image_id) from (keyword.json)
+    """Extract all illust IDs from a Pixiv keyword search.
 
-    Returns:
-        Set[str]: illust_id (image_id)
+    URL: https://www.pixiv.net/ajax/search/artworks/{keyword}?...
     """
-    # NOTE: id of disable artwork is int (not str)
-    id_group: Set[str] = set()
-    for artwork in response.json()["body"]["illustManga"]["data"]:
-        id_group.add(artwork["id"])
-    return id_group
+    return {str(artwork["id"]) for artwork in response.json()["body"]["illustManga"]["data"]}

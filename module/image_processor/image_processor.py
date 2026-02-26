@@ -34,6 +34,7 @@ class ImageProcessor:
     ):
         self.input_dir = input_dir
         self.output_dir = output_dir
+        os.makedirs(self.output_dir, exist_ok=True)
         self.model_name = model_name
         self.session = new_session(self.model_name)
 

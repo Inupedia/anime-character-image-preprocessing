@@ -1,35 +1,35 @@
 import concurrent.futures as futures
+import logging
 from typing import Iterable, Set
 
-from ...config import DOWNLOAD_CONFIG
 from tqdm import tqdm
-from ..utils import printInfo
 
+from ...config import DOWNLOAD_CONFIG
 from .download_image import ImageDownloader
+
+logger = logging.getLogger(__name__)
 
 
 class Downloader:
-    """[summary]
-    download controller
-    """
+    """Threaded download controller with flow-size capacity limit."""
 
-    def __init__(self, capacity):
+    def __init__(self, capacity: int):
         self.url_group: Set[str] = set()
         self.capacity = capacity
-        self.downloader = ImageDownloader().download_image
+        self._image_downloader = ImageDownloader()
 
-    def add(self, urls: Iterable[str]):
+    def add(self, urls: Iterable[str]) -> None:
         for url in urls:
             self.url_group.add(url)
 
-    def download(self):
+    def download(self) -> float:
         flow_size = 0.0
-        printInfo("===== downloader start =====")
+        logger.info("Downloader starting with %d URLs", len(self.url_group))
 
         n_thread = DOWNLOAD_CONFIG["N_THREAD"]
         with futures.ThreadPoolExecutor(n_thread) as executor:
             with tqdm(total=len(self.url_group), desc="downloading") as pbar:
-                for image_size in executor.map(self.downloader, self.url_group):
+                for image_size in executor.map(self._image_downloader.download_image, self.url_group):
                     flow_size += image_size
                     pbar.update()
                     pbar.set_description(f"downloading / flow {flow_size:.2f}MB")
@@ -37,5 +37,5 @@ class Downloader:
                         executor.shutdown(wait=False, cancel_futures=True)
                         break
 
-        printInfo("===== downloader complete =====")
+        logger.info("Download complete. Total flow: %.2f MB", flow_size)
         return flow_size

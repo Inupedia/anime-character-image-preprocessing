@@ -54,11 +54,18 @@ if __name__ == "__main__":
     }]
 
     if len(flags_in_argv) > 1:
+        import logging
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
         from module.config import IMAGE_CONFIG
         from module.image_processor import ImageProcessor
         from module.image_renamer import ImageRenamer
         from module.image_cropper import ImageCropper, SmartCropper
         from module.image_tagger import ImageTagger
+        from module.image_crawler import ImageCrawler
 
         args = argv[:]
         while args:
@@ -82,6 +89,14 @@ if __name__ == "__main__":
                     )
             elif arg == "--tag":
                 ImageTagger().process_directory()
+            elif arg == "--pixiv-user":
+                artist_id = args.pop(0) if args else None
+                if artist_id:
+                    ImageCrawler("User", artist_id).run()
+            elif arg == "--pixiv-keyword":
+                keyword = args.pop(0) if args else None
+                if keyword:
+                    ImageCrawler("Keyword", keyword).run()
             else:
                 print(f"Unknown argument: {arg}")
     else:
