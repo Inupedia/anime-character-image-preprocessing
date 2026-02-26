@@ -1,15 +1,19 @@
+import logging
 import os
 import re
+from typing import Dict, List, Mapping, Optional, Tuple
+
 import cv2
 import numpy as np
 import pandas as pd
 from PIL import Image
 from onnxruntime import InferenceSession
-from typing import Mapping, Tuple, Dict
 from tqdm import tqdm
+
 from ..config import IMAGE_CONFIG
 from ..hf_downloader import HFDownloader
-import os
+
+logger = logging.getLogger(__name__)
 
 
 class ImageTagger:

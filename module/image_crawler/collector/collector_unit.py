@@ -1,3 +1,4 @@
+import logging
 import time
 from typing import Callable, Dict, Iterable, Optional, Tuple
 
@@ -5,16 +6,20 @@ import requests
 from ...config import DOWNLOAD_CONFIG, NETWORK_CONFIG, OUTPUT_CONFIG
 from ..utils import printInfo, printWarn, writeFailLog
 
+logger = logging.getLogger(__name__)
+
 
 def collect(args: Tuple[str, Callable, Optional[Dict]]) -> Optional[Iterable[str]]:
-    """[summary]
-    generic metadata collector, collect metadata from templates
-        e.g.: user.json, page.json, ...
-        use different selector to select different elements
-        args: url, selector, additional_headers
+    """Generic metadata collector, collect metadata from templates.
+
+    Uses different selectors to extract different elements from responses
+    (e.g.: user.json, page.json, ...).
+
+    Args:
+        args: Tuple of (url, selector_function, additional_headers).
     """
     url, selector, additional_headers = args
-    headers = NETWORK_CONFIG["HEADER"]
+    headers = {**NETWORK_CONFIG["HEADER"]}
     if additional_headers is not None:
         headers.update(additional_headers)
 
