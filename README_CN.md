@@ -97,6 +97,11 @@
 
 <div align="center"><img src="./assets/webui_tab_tagging.jpg" width="800px"></div>
 
+### 图片放大
+使用 Real-ESRGAN 超分辨率放大（4× 动漫专用模型），适合提升裁剪后低分辨率图片的画质。
+
+<div align="center"><img src="./assets/webui_tab_upscale.jpg" width="800px"></div>
+
 ### 批量重命名
 将上传的图片按顺序编号重命名，支持自定义前缀（如 `illust_0.jpg`、`illust_1.jpg`、…）。
 
@@ -194,7 +199,11 @@
    ```
 
 ### 图片放大
-发出了鸽子般的笑声
+使用 [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) 的 `realesr-animevideov3` 动漫专用模型进行超分辨率放大。模型（~2.4 MB）首次使用时自动下载。
+```bash
+python main.py upscale       # 默认 4 倍放大
+python main.py upscale 2     # 2 倍放大
+```
 
 ### 图片命名
 1. 修改`config.py`中以下配置，格式如下：

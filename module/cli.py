@@ -11,6 +11,7 @@ from .image_renamer import ImageRenamer
 from .image_crawler import ImageCrawler
 from .image_cropper import ImageCropper, SmartCropper
 from .image_tagger import ImageTagger
+from .image_scaler import ImageScaler
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -57,6 +58,15 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser("tag", help="Generate tags for images using ONNX tagger model.")
 
+    upscale_parser = subparsers.add_parser("upscale", help="Upscale images using Real-ESRGAN.")
+    upscale_parser.add_argument(
+        "scale",
+        type=float,
+        nargs="?",
+        default=4.0,
+        help="Output scale factor (default: 4.0).",
+    )
+
     pixiv_user_parser = subparsers.add_parser("pixiv-user", help="Download all artworks from a Pixiv artist.")
     pixiv_user_parser.add_argument("artist_id", help="Pixiv artist ID.")
 
@@ -95,6 +105,14 @@ def run_command(command: str, **kwargs) -> None:
 
         case "tag":
             ImageTagger().process_directory()
+
+        case "upscale":
+            scale = kwargs.get("scale", IMAGE_CONFIG.UPSCALE_SCALE)
+            ImageScaler(
+                input_dir=IMAGE_CONFIG.UPSCALE_INPUT_DIR,
+                output_dir=IMAGE_CONFIG.UPSCALE_OUTPUT_DIR,
+                outscale=scale,
+            ).process_images()
 
         case "pixiv-user":
             ImageCrawler("User", kwargs["artist_id"]).run()

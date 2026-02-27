@@ -17,6 +17,9 @@ class ImageConfig:
     KEYWORD_MODE: str = "safe"          # safe / r18 / all
     IMAGE_TAGGER_INPUT_DIR: str = "./src/input/"
     IMAGE_TAGGER_CONFIDENCE: float = 0.5
+    UPSCALE_INPUT_DIR: str = "./src/input/"
+    UPSCALE_OUTPUT_DIR: str = "./src/upscale_output/"
+    UPSCALE_SCALE: float = 4.0
     HF_REPO_ID: str = "inupedia/anime-character-image-preprocessing"
     HF_MODEL_DIR: str = "./module/model/"
 

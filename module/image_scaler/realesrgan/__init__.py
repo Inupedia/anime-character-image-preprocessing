@@ -1,5 +1,4 @@
-# flake8: noqa
-from .archs import *
-from .data import *
-from .models import *
-from .utils import *
+from .archs import SRVGGNetCompact
+from .utils import RealESRGANer
+
+__all__ = ["SRVGGNetCompact", "RealESRGANer"]

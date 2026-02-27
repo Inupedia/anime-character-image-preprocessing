@@ -4,13 +4,14 @@ Each sub-module exposes a ``create_tab()`` function that builds
 its UI inside a ``gr.Tab`` context and wires up event handlers.
 """
 
-from . import boundary_crop, pixiv_crawler, remove_bg, rename, smart_crop, tagging
+from . import boundary_crop, pixiv_crawler, remove_bg, rename, smart_crop, tagging, upscale
 
 __all__ = [
     "remove_bg",
     "boundary_crop",
     "smart_crop",
     "tagging",
+    "upscale",
     "rename",
     "pixiv_crawler",
 ]

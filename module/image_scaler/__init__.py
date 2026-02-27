@@ -1,2 +1,3 @@
-# Image scaler module (Real-ESRGAN based upscaling)
-# Currently disabled — awaiting basicsr dependency integration.
+from .image_scaler import ImageScaler
+
+__all__ = ["ImageScaler"]

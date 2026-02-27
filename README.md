@@ -114,6 +114,11 @@ Generates Booru-style tags using WD Tagger, directly usable for Stable Diffusion
 
 <div align="center"><img src="./assets/webui_tab_tagging.jpg" width="800px"></div>
 
+### Image Upscaling
+Super-resolution upscaling using Real-ESRGAN (4× anime model). Ideal for enhancing low-resolution cropped images.
+
+<div align="center"><img src="./assets/webui_tab_upscale.jpg" width="800px"></div>
+
 ### Batch Rename
 Sequentially renames uploaded images with a custom prefix (e.g. `illust_0.jpg`, `illust_1.jpg`, …).
 
@@ -214,8 +219,12 @@ Smart cropping can be used in conjunction with background removal. Please note t
    python main.py --tag
    ```
 
-### Image Enlargement
-Base on REAL-ESRGAN, a practical algorithm for single image super-resolution with realistic textures. [^2]
+### Image Upscaling
+Upscale images using [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) with the `realesr-animevideov3` model optimized for anime. The model (~2.4 MB) is downloaded automatically on first use.
+```bash
+python main.py upscale       # 4× by default
+python main.py upscale 2     # 2× scale
+```
 
 ### Image Naming
 1. Modify the following configurations in `config.py`, the format is as follows:

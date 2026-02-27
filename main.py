@@ -14,6 +14,7 @@ _FLAG_MAP = {
     "--boundary-crop": "boundary-crop",
     "--smart-crop": "smart-crop",
     "--tag": "tag",
+    "--upscale": "upscale",
     "--pixiv-user": "pixiv-user",
     "--pixiv-keyword": "pixiv-keyword",
 }
@@ -47,6 +48,11 @@ def _run_chained_legacy(argv: list[str]) -> None:
                 kwargs["scale"] = float(args.pop(0))
             else:
                 kwargs["scale"] = 1.0
+        elif cmd == "upscale":
+            if args and not args[0].startswith("--"):
+                kwargs["scale"] = float(args.pop(0))
+            else:
+                kwargs["scale"] = 4.0
         elif cmd in ("pixiv-user", "pixiv-keyword"):
             value = args.pop(0) if args else None
             if not value:

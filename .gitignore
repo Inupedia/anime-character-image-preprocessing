@@ -45,6 +45,7 @@ build/
 !assets/webui_tab_tagging.jpg
 !assets/webui_tab_rename.jpg
 !assets/webui_tab_pixiv.jpg
+!assets/webui_tab_upscale.jpg
 
 # ignore .pth onnx models & tagger info
 *.pth
