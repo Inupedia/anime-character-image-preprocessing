@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Anime character image preprocessing tool for Stable Diffusion training datasets"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [
     {name = "Pengju Zhang", email = "inupedia.official@gmail.com"},
 ]
@@ -26,9 +26,10 @@ dependencies = [
     "tqdm>=4.66.0",
     "urllib3>=2.0.0",
     "dghs-imgutils>=0.8.0",
-    "huggingface_hub>=0.25.0,<2.0.0",
+    "huggingface-hub>=0.25.0,<2.0.0",
     "onnxruntime>=1.20.0",
     "pandas>=2.0.0",
+    "gradio>=4.0.0",
 ]
 
 [project.urls]
@@ -39,8 +40,22 @@ Repository = "https://github.com/Inupedia/sd-character-image-preprocessing"
 sd-preprocess = "module.cli:main"
 
 [build-system]
-requires = ["setuptools>=68.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.setuptools.packages.find]
-include = ["module*"]
+[tool.hatch.build.targets.wheel]
+packages = ["module", "webui"]
+
+[tool.uv]
+override-dependencies = [
+    "numpy>=2.0.0",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }

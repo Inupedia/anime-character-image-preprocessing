@@ -53,28 +53,24 @@
 
 ### 方式 B：从源码运行
 
+需要 [uv](https://docs.astral.sh/uv/)（Python 包管理器）。
+
 1. 克隆仓库：
    ```bash
    git clone https://github.com/Inupedia/sd-character-image-preprocessing
    cd sd-character-image-preprocessing
    ```
-2. 创建并激活 Python 环境：
+2. 安装依赖（自动创建 `.venv`）：
    ```bash
-   python3.11 -m venv venv
-   source venv/bin/activate
+   uv sync
    ```
-3. 安装依赖：
-   ```bash
-   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-   pip install -r requirements.txt
-   ```
-4. 复制配置模板：
+3. 复制配置模板：
    ```bash
    cp module/config_temp.py module/config.py
    ```
-5. 启动 Web UI：
+4. 启动 Web UI：
    ```bash
-   python app.py
+   uv run python app.py
    ```
    在浏览器中打开 http://localhost:7860。
 
@@ -118,7 +114,8 @@
 
 ### 要求
 
-- Python 3.10 或更高版本及其依赖包（见 `requirements.txt`）
+- Python 3.11 或更高版本
+- [uv](https://docs.astral.sh/uv/)（或使用 `pip install` 配合 `pyproject.toml`）
 - Git（可选）
    
 ### 背景去除
@@ -275,9 +272,10 @@ git push origin v1.0.0
 
 本地构建：
 ```bash
-pip install pyinstaller
+uv sync
+uv pip install pyinstaller
 cp module/config_temp.py module/config.py
-pyinstaller AnimePreprocessing.spec --noconfirm
+uv run pyinstaller AnimePreprocessing.spec --noconfirm
 # 输出目录：dist/AnimePreprocessing/
 ```
 

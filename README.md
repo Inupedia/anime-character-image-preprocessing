@@ -70,28 +70,24 @@ Extract and run the `AnimePreprocessing` executable — the Web UI will open in 
 
 ### Option B: Run from Source
 
+Requires [uv](https://docs.astral.sh/uv/) (Python package manager).
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/Inupedia/sd-character-image-preprocessing
    cd sd-character-image-preprocessing
    ```
-2. Create and activate a Python environment:
+2. Install dependencies (creates `.venv` automatically):
    ```bash
-   python3.11 -m venv venv
-   source venv/bin/activate
+   uv sync
    ```
-3. Install dependencies:
-   ```bash
-   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-   pip install -r requirements.txt
-   ```
-4. Copy the configuration template:
+3. Copy the configuration template:
    ```bash
    cp module/config_temp.py module/config.py
    ```
-5. Launch the Web UI:
+4. Launch the Web UI:
    ```bash
-   python app.py
+   uv run python app.py
    ```
    Open http://localhost:7860 in your browser.
 
@@ -135,7 +131,8 @@ Each function can also be executed from the command line, or combined through [m
 
 ### Requirements
 
-- Python 3.10 or higher and its dependencies (check `requirements.txt`)
+- Python 3.11 or higher
+- [uv](https://docs.astral.sh/uv/) (or run `pip install` against `pyproject.toml`)
 - Git (optional)
    
 ### Background Removal
@@ -296,9 +293,10 @@ This builds executables for Windows, macOS (Intel + Apple Silicon), and Linux, a
 
 To build locally:
 ```bash
-pip install pyinstaller
+uv sync
+uv pip install pyinstaller
 cp module/config_temp.py module/config.py
-pyinstaller AnimePreprocessing.spec --noconfirm
+uv run pyinstaller AnimePreprocessing.spec --noconfirm
 # Output: dist/AnimePreprocessing/
 ```
 

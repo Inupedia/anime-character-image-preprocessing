@@ -28,22 +28,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+      - uses: astral-sh/setup-uv@v5
 
       - name: Install dependencies
         run: |
-          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-          pip install -r requirements.txt
-          pip install pyinstaller
+          uv sync
+          uv pip install pyinstaller
 
       - name: Prepare config
         shell: bash
         run: cp module/config_temp.py module/config.py
 
       - name: Build with PyInstaller
-        run: pyinstaller AnimePreprocessing.spec --noconfirm
+        run: uv run pyinstaller AnimePreprocessing.spec --noconfirm
 
       - name: Create archive (Unix)
         if: runner.os != 'Windows'
