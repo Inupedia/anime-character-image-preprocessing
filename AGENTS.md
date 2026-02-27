@@ -3,7 +3,7 @@
 ## Cursor Cloud specific instructions
 
 ### Overview
-Python CLI tool for anime character image preprocessing (background removal, cropping, tagging, renaming). Not a web app — invoked via `python main.py <command>`.
+Python tool for anime character image preprocessing (background removal, cropping, tagging, renaming). Supports both CLI (`python main.py <command>`) and Gradio web UI (`python app.py`).
 
 ### Python version
 Requires **Python 3.11** (via deadsnakes PPA). A virtualenv lives at `/workspace/venv`.
@@ -41,9 +41,17 @@ python main.py --rename --remove-bg --boundary-crop
 - Boundary crop: `src/boundary_crop_output/`
 - Smart crop: `src/smart_crop_output/`
 
+### Gradio web UI
+```bash
+source /workspace/venv/bin/activate
+python app.py          # launches on http://0.0.0.0:7860
+```
+Five tabs: 背景去除 (Background Removal), 边界裁剪 (Boundary Crop), 智能裁剪 (Smart Crop), 图片标注 (Image Tagging), 批量重命名 (Batch Rename). Models are lazy-loaded on first use per tab.
+
 ### Gotchas
 - First run of `remove-bg` downloads ~176 MB U-2-Net ONNX model to `~/.u2net/`. `smart-crop` and `tag` also download models on first use.
 - Pixiv crawler features require valid credentials in `module/config.py` and network access — skip for local testing.
 - Image scaler module (Real-ESRGAN) is disabled (placeholder in `module/image_scaler/`).
 - No automated test suite; validation is by running CLI commands against sample images.
 - `dghs-imgutils` metadata says `numpy<2` but works fine with numpy 2.x in practice.
+- PyTorch must be installed from the CPU index (`--index-url https://download.pytorch.org/whl/cpu`) before other deps; installing from default PyPI causes dependency resolution failures due to CUDA bindings.
