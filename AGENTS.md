@@ -47,3 +47,4 @@ python main.py --rename --remove-bg --boundary-crop
 - Image scaler module (Real-ESRGAN) is disabled (placeholder in `module/image_scaler/`).
 - No automated test suite; validation is by running CLI commands against sample images.
 - `dghs-imgutils` metadata says `numpy<2` but works fine with numpy 2.x in practice.
+- PyTorch must be installed from the CPU index (`--index-url https://download.pytorch.org/whl/cpu`) before other deps; installing from default PyPI causes dependency resolution failures due to CUDA bindings.
