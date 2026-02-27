@@ -39,6 +39,12 @@ build/
 !assets/illust_1_smartcrop_0.jpeg
 !assets/illust_2_smartcrop_0.jpeg
 !assets/Cookie.jpg
+!assets/webui_tab_remove_bg.jpg
+!assets/webui_tab_boundary_crop.jpg
+!assets/webui_tab_smart_crop.jpg
+!assets/webui_tab_tagging.jpg
+!assets/webui_tab_rename.jpg
+!assets/webui_tab_pixiv.jpg
 
 # ignore .pth onnx models & tagger info
 *.pth

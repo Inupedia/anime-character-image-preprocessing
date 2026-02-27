@@ -53,30 +53,90 @@ A Python-based character image preprocessing tool that transforms character imag
     </table>
 </div>
 
-## Usage and Project Features
-Each function can be executed independently, or they can be used in combination through [mixed commands](#mixed-commands).
+## Quick Start
+
+### Option A: Download Pre-built Release (Recommended)
+
+Download the latest release for your platform from [Releases](https://github.com/Inupedia/sd-character-image-preprocessing/releases):
+
+| Platform | File |
+|---|---|
+| Windows x64 | `AnimePreprocessing-windows-x64.zip` |
+| macOS (Apple Silicon) | `AnimePreprocessing-macos-arm64.tar.gz` |
+| macOS (Intel) | `AnimePreprocessing-macos-x64.tar.gz` |
+| Linux x64 | `AnimePreprocessing-linux-x64.tar.gz` |
+
+Extract and run the `AnimePreprocessing` executable — the Web UI will open in your browser automatically.
+
+### Option B: Run from Source
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Inupedia/sd-character-image-preprocessing
+   cd sd-character-image-preprocessing
+   ```
+2. Create and activate a Python environment:
+   ```bash
+   python3.11 -m venv venv
+   source venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+   pip install -r requirements.txt
+   ```
+4. Copy the configuration template:
+   ```bash
+   cp module/config_temp.py module/config.py
+   ```
+5. Launch the Web UI:
+   ```bash
+   python app.py
+   ```
+   Open http://localhost:7860 in your browser.
+
+## Web UI (Gradio)
+
+Launch with `python app.py`. All features are available through an intuitive tabbed interface — no command-line knowledge required.
+
+### Background Removal
+Upload images and select a model (recommended: `isnet-anime` for anime characters). The background is replaced with white.
+
+<div align="center"><img src="./assets/webui_tab_remove_bg.jpg" width="800px"></div>
+
+### Boundary Cropping
+Automatically detects character boundaries and removes excess whitespace. Best used after background removal.
+
+<div align="center"><img src="./assets/webui_tab_boundary_crop.jpg" width="800px"></div>
+
+### Smart Cropping
+Face-based intelligent cropping using YOLO or OpenCV Cascade detection. Supports multi-character images (each face produces a separate crop). Adjustable scale factor controls how much area around the face is preserved.
+
+<div align="center"><img src="./assets/webui_tab_smart_crop.jpg" width="800px"></div>
+
+### Image Tagging
+Generates Booru-style tags using WD Tagger, directly usable for Stable Diffusion training. Adjustable confidence threshold.
+
+<div align="center"><img src="./assets/webui_tab_tagging.jpg" width="800px"></div>
+
+### Batch Rename
+Sequentially renames uploaded images with a custom prefix (e.g. `illust_0.jpg`, `illust_1.jpg`, …).
+
+<div align="center"><img src="./assets/webui_tab_rename.jpg" width="800px"></div>
+
+### Pixiv Downloader
+Download artworks by artist ID or keyword search. Requires valid Pixiv credentials in `module/config.py`.
+
+<div align="center"><img src="./assets/webui_tab_pixiv.jpg" width="800px"></div>
+
+## CLI Usage
+
+Each function can also be executed from the command line, or combined through [mixed commands](#mixed-commands).
 
 ### Requirements
 
-- Python 3.10 or higher and its dependencies（check `requirements.txt`）
+- Python 3.10 or higher and its dependencies (check `requirements.txt`)
 - Git (optional)
-
-### Installation
-1. Clone the repository or [download zip](https://github.com/Inupedia/sd-character-image-preprocessing/archive/refs/heads/main.zip)：
-   ```bash
-   git clone https://github.com/Inupedia/sd-character-image-preprocessing
-   ```
-2. Navigate to the project folder to create and activate the Python environment (optional):
-   ```bash
-   cd sd-character-image-preprocessing
-   python3.11 -m venv venv # 3.11 version in this case
-   source venv/bin/activate
-   ```
-3. Install the required packages:
-   ```bash
-   pip install -r requirements.txt 
-   ```
-4. Change the configuration file `module/config_temp.py` to `config.py`.
    
 ### Background Removal
 Background removal is based on the character detection model. Please choose the model according to your needs (such as isnet-anime corresponds to secondary character).
@@ -222,6 +282,25 @@ Mixed commands can satisfy multiple tasks to be executed in order. If you want t
    ```bash
    python main.py --rename --remove-bg --boundary-crop # Rename first, then remove the background of the image and crop the edge
    ```
+
+## Building Standalone Releases
+
+The project includes a GitHub Actions workflow that automatically builds standalone executables when a version tag is pushed:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+This builds executables for Windows, macOS (Intel + Apple Silicon), and Linux, and attaches them to a GitHub Release. You can also trigger a build manually from the Actions tab.
+
+To build locally:
+```bash
+pip install pyinstaller
+cp module/config_temp.py module/config.py
+pyinstaller AnimePreprocessing.spec --noconfirm
+# Output: dist/AnimePreprocessing/
+```
 
 ## Reference
 - [PixivCrawler](https://github.com/CWHer/PixivCrawler)
