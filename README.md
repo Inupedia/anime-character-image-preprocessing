@@ -63,7 +63,6 @@ Download the latest release for your platform from [Releases](https://github.com
 |---|---|
 | Windows x64 | `AnimePreprocessing-windows-x64.zip` |
 | macOS (Apple Silicon) | `AnimePreprocessing-macos-arm64.tar.gz` |
-| macOS (Intel) | `AnimePreprocessing-macos-x64.tar.gz` |
 | Linux x64 | `AnimePreprocessing-linux-x64.tar.gz` |
 
 Extract and run the `AnimePreprocessing` executable — the Web UI will open in your browser automatically.

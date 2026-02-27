@@ -46,7 +46,6 @@
 |---|---|
 | Windows x64 | `AnimePreprocessing-windows-x64.zip` |
 | macOS (Apple Silicon) | `AnimePreprocessing-macos-arm64.tar.gz` |
-| macOS (Intel) | `AnimePreprocessing-macos-x64.tar.gz` |
 | Linux x64 | `AnimePreprocessing-linux-x64.tar.gz` |
 
 解压后运行 `AnimePreprocessing` 可执行文件，Web UI 会自动在浏览器中打开。
