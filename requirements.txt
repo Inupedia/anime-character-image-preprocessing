@@ -16,3 +16,4 @@ dghs-imgutils>=0.8.0
 huggingface_hub>=0.25.0,<2.0.0
 onnxruntime>=1.20.0
 pandas>=2.0.0
+gradio>=4.0.0
