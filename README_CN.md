@@ -36,37 +36,90 @@
     </table>
 </div>
 
-## 使用方法及项目功能
-每个功能都可以独立执行，也可以通过[混合指令](#混合指令)进行搭配使用。
-1. [背景去除](#背景去除)
-2. [边缘裁剪](#边缘裁剪)
-3. [智能裁剪](#智能裁剪)
-4. [图片标签](#图片标签)
-5. [图片放大(进行中)](#图片放大)
-6. [图片命名](#图片命名)
-7. [PIXIV图片下载](#pixiv图片下载)
+## 快速开始
+
+### 方式 A：下载预构建版本（推荐）
+
+从 [Releases](https://github.com/Inupedia/sd-character-image-preprocessing/releases) 下载对应平台的版本：
+
+| 平台 | 文件 |
+|---|---|
+| Windows x64 | `AnimePreprocessing-windows-x64.zip` |
+| macOS (Apple Silicon) | `AnimePreprocessing-macos-arm64.tar.gz` |
+| macOS (Intel) | `AnimePreprocessing-macos-x64.tar.gz` |
+| Linux x64 | `AnimePreprocessing-linux-x64.tar.gz` |
+
+解压后运行 `AnimePreprocessing` 可执行文件，Web UI 会自动在浏览器中打开。
+
+### 方式 B：从源码运行
+
+1. 克隆仓库：
+   ```bash
+   git clone https://github.com/Inupedia/sd-character-image-preprocessing
+   cd sd-character-image-preprocessing
+   ```
+2. 创建并激活 Python 环境：
+   ```bash
+   python3.11 -m venv venv
+   source venv/bin/activate
+   ```
+3. 安装依赖：
+   ```bash
+   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+   pip install -r requirements.txt
+   ```
+4. 复制配置模板：
+   ```bash
+   cp module/config_temp.py module/config.py
+   ```
+5. 启动 Web UI：
+   ```bash
+   python app.py
+   ```
+   在浏览器中打开 http://localhost:7860。
+
+## Web UI（Gradio）
+
+运行 `python app.py` 启动。所有功能通过直观的标签页界面操作，无需命令行知识。
+
+### 背景去除
+上传图片并选择模型（推荐动漫角色使用 `isnet-anime`）。背景将被替换为白色。
+
+<div align="center"><img src="./assets/webui_tab_remove_bg.jpg" width="800px"></div>
+
+### 边界裁剪
+自动检测角色边界并裁剪多余空白。建议先进行背景去除后再使用，效果更佳。
+
+<div align="center"><img src="./assets/webui_tab_boundary_crop.jpg" width="800px"></div>
+
+### 智能裁剪
+基于人脸检测的智能裁剪，支持 YOLO 和 OpenCV Cascade 两种检测方式。支持多人图自动分割（每张人脸生成一张裁剪图）。可调节裁剪比例参数。
+
+<div align="center"><img src="./assets/webui_tab_smart_crop.jpg" width="800px"></div>
+
+### 图片标注
+使用 WD Tagger 自动生成 Booru 风格标签，可直接用于 Stable Diffusion 训练。支持置信度阈值调节。
+
+<div align="center"><img src="./assets/webui_tab_tagging.jpg" width="800px"></div>
+
+### 批量重命名
+将上传的图片按顺序编号重命名，支持自定义前缀（如 `illust_0.jpg`、`illust_1.jpg`、…）。
+
+<div align="center"><img src="./assets/webui_tab_rename.jpg" width="800px"></div>
+
+### Pixiv 下载器
+按画师 ID 或关键词搜索下载作品。需要在 `module/config.py` 中配置有效的 Pixiv Cookie 和用户 ID。
+
+<div align="center"><img src="./assets/webui_tab_pixiv.jpg" width="800px"></div>
+
+## 命令行使用
+
+每个功能也可以通过命令行独立执行，或通过[混合指令](#混合指令)组合使用。
 
 ### 要求
 
-- Python 3.10或更高版本及其依赖包（见`requirements.txt`）
-- Git (可选)
-
-### 安装
-1. 克隆存储库或者[下载zip](https://github.com/Inupedia/sd-character-image-preprocessing/archive/refs/heads/main.zip)：
-   ```bash
-   git clone https://github.com/Inupedia/sd-character-image-preprocessing
-   ```
-2. 进入项目文件夹创建python环境并激活（可选）：
-   ```bash
-   cd sd-character-image-preprocessing
-   python3.11 -m venv venv #这里采用3.11版本
-   source venv/bin/activate
-   ```
-3. 安装所需的软件包：
-   ```bash
-   pip install -r requirements.txt 
-   ```
-4. 将配置文件`module/config_temp.py`更改为`config.py`
+- Python 3.10 或更高版本及其依赖包（见 `requirements.txt`）
+- Git（可选）
    
 ### 背景去除
 根据人物检测模型进行背景去除，请根据自己的需求选择模型（如isnet-anime对应二次元角色）。
@@ -209,9 +262,25 @@
    python main.py --rename --remove-bg --boundary-crop #先重命名，再对图片去除背景并边缘裁剪
    ```
 
-## 后续更新（如果有需求🤣）
-- [ ] 无损放大图片（感觉没啥用，鸽了！）
-  
+## 构建独立发行版
+
+项目包含 GitHub Actions 工作流，推送版本标签时会自动构建独立可执行文件：
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+会自动为 Windows、macOS（Intel + Apple Silicon）和 Linux 构建可执行文件，并附加到 GitHub Release。也可以在 Actions 页面手动触发构建。
+
+本地构建：
+```bash
+pip install pyinstaller
+cp module/config_temp.py module/config.py
+pyinstaller AnimePreprocessing.spec --noconfirm
+# 输出目录：dist/AnimePreprocessing/
+```
+
 ## 参考项目
 - [PixivCrawler](https://github.com/CWHer/PixivCrawler)
 - [rembg](https://github.com/danielgatis/rembg)
