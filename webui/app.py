@@ -2,7 +2,7 @@
 
 import gradio as gr
 
-from .tabs import boundary_crop, remove_bg, rename, smart_crop, tagging
+from .tabs import boundary_crop, pixiv_crawler, remove_bg, rename, smart_crop, tagging
 
 CSS = """
 .header-row { text-align: center; margin-bottom: 0.5rem; }
@@ -25,5 +25,6 @@ def build_app() -> gr.Blocks:
             smart_crop.create_tab()
             tagging.create_tab()
             rename.create_tab()
+            pixiv_crawler.create_tab()
 
     return app
